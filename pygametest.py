@@ -20,6 +20,11 @@ dark_colour = (79, 49, 48)
 
 tile_colours = [light_colour, mid_colour, dark_colour]
 
+
+screen_width = 800
+screen_height = 800
+origin = (screen_width/2, screen_height/2)
+
 def draw_hex(pos, scale, colour):
     
     transformed_offset = []
@@ -33,7 +38,6 @@ def draw_board(scale):
     
     yoffset = scale*SQRT3
     half_yoffset = yoffset*0.5
-    origin = (400, 400)
     # draw centreline
     # for y in range(-5, 6):
     #     draw_hex(numpy.add(origin, (0, yoffset*y)), scale,  tile_colours[(y+5)%3])
@@ -46,7 +50,7 @@ def draw_board(scale):
 
 pygame.init()
 
-surface = pygame.display.set_mode((800, 800))
+surface = pygame.display.set_mode((screen_width, screen_height))
 
 
 # game loop
@@ -59,13 +63,13 @@ while True:
     surface.fill((255, 255, 255))
     draw_board(scale)
 
+    mousepos = pygame.mouse.get_pos()
+
+    pos = numpy.add(axial.axial_to_screen(axial.axial_round(axial.screen_to_axial(numpy.subtract(mousepos, origin), scale)), scale), origin)
+    draw_hex(pos, scale, (20, 230, 40))
+
     for event in pygame.event.get():
         if event.type == pygame.QUIT: sys.exit()
         # if event.type == pygame.MOUSEBUTTONDOWN:
-            
-
-    mousepos = pygame.mouse.get_pos()
-    pos = numpy.floor(numpy.array(axial.screen_to_axial(mousepos, scale))/scale)*scale
-    draw_hex(axial.axial_to_screen(pos, scale), scale, (20, 230, 40))
-
+    
     pygame.display.flip()
