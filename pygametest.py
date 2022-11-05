@@ -1,6 +1,8 @@
 import sys, pygame, math
 import numpy
 
+import axial
+
 SQRT32 = math.sqrt(3)/2
 SQRT3 = math.sqrt(3)
 hex_offset = [  
@@ -42,20 +44,6 @@ def draw_board(scale):
             draw_hex(numpy.add(origin, (x*1.5*scale, y*yoffset+half_yoffset*x)), scale,  tile_colours[(x+2*y+5)%3])
             draw_hex(numpy.add(origin, (-x*1.5*scale, y*yoffset+half_yoffset*x)), scale,  tile_colours[(x+2*y+5)%3])
 
-
-    # draw_hex((100, scale), scale,  light_colour)
-    # draw_hex((100, scale+1*yoffset), scale,  mid_colour)
-    # draw_hex((100, scale+2*yoffset), scale,  dark_colour)
-
-    # draw_hex((100+3/2*scale, scale+half_yoffset), scale,  dark_colour)
-    # draw_hex((100+3/2*scale, scale+3*half_yoffset), scale,  light_colour)
-    # draw_hex((100+3/2*scale, scale+5*half_yoffset), scale,  mid_colour)
-
-    # draw_hex((100+3*scale, scale), scale,  light_colour)
-    # draw_hex((100+3*scale, scale+1*yoffset), scale,  mid_colour)
-    # draw_hex((100+3*scale, scale+2*yoffset), scale, dark_colour)
-
-
 pygame.init()
 
 surface = pygame.display.set_mode((800, 800))
@@ -64,17 +52,20 @@ surface = pygame.display.set_mode((800, 800))
 # game loop
 while True:
 
+    # state
+    scale = 30
+
+    # draw background
     surface.fill((255, 255, 255))
-
-
+    draw_board(scale)
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT: sys.exit()
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            mousepos = pygame.mouse.get_pos()
-            draw_hex(mousepos, 25, (255, 255, 255))
+        # if event.type == pygame.MOUSEBUTTONDOWN:
+            
 
-
-    draw_board(30)
+    mousepos = pygame.mouse.get_pos()
+    pos = numpy.floor(numpy.array(axial.screen_to_axial(mousepos, scale))/scale)*scale
+    draw_hex(axial.axial_to_screen(pos, scale), scale, (20, 230, 40))
 
     pygame.display.flip()
