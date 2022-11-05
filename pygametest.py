@@ -25,14 +25,14 @@ screen_width = 800
 screen_height = 800
 origin = (screen_width/2, screen_height/2)
 
-def draw_hex(pos, scale, colour):
+def draw_hex(pos, scale, colour, width=0):
     
     transformed_offset = []
     for coord in hex_offset:
         # coord * scale + pos
         transformed_offset.append(numpy.add(numpy.array(coord)* scale, pos))
 
-    pygame.draw.polygon(surface, colour, transformed_offset)
+    pygame.draw.polygon(surface, colour, transformed_offset, width)
 
 def draw_board(scale):
     
@@ -51,7 +51,7 @@ def draw_board(scale):
 pygame.init()
 
 surface = pygame.display.set_mode((screen_width, screen_height))
-
+font = pygame.font.SysFont(None, 24)
 
 # game loop
 while True:
@@ -60,16 +60,24 @@ while True:
     scale = 30
 
     # draw background
-    surface.fill((255, 255, 255))
+    surface.fill((255, 255, 255, 255))
     draw_board(scale)
 
     mousepos = pygame.mouse.get_pos()
 
-    pos = numpy.add(axial.axial_to_screen(axial.axial_round(axial.screen_to_axial(numpy.subtract(mousepos, origin), scale)), scale), origin)
-    draw_hex(pos, scale, (20, 230, 40))
+    axialpos = axial.axial_round(axial.screen_to_axial(numpy.subtract(mousepos, origin), scale))
+    pos = numpy.add(axial.axial_to_screen(axialpos, scale), origin)
+    draw_hex(pos, scale, (230, 230, 240), 4)
+    pygame.draw.circle(surface, (255, 255, 255), pos, scale/3)
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT: sys.exit()
-        # if event.type == pygame.MOUSEBUTTONDOWN:
+        # if event.type == pygame.MOUSEBUTTONDOWN:            
+
     
+    img = font.render("hovering: " + str(axialpos), True, (1,1,1))
+    surface.blit(img, (20, 20))
+
+
+    # do the transparent stuff maybe 
     pygame.display.flip()
