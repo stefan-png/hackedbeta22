@@ -16,17 +16,17 @@ def check_If_Valid(grid, np_pos,np_pos_start):# checks if the position is valid
 
     if not check_on_board(pos):
         return False
+
     object_pos = grid[pos[0], pos[1]]
     if object_pos not in [0, 1] and pos != pos_start:
         if object_pos.colour == object_start.colour:
             return False
         else:
             return None
-
     if in_Check(grid, pos, pos_start) == True:
         return False
-    else:
-        return True
+
+    return True
 
 def check_If_Valid_Check(grid, np_pos,np_pos_start):
     pos_start = (np_pos_start[0], np_pos_start[1])
@@ -36,8 +36,7 @@ def check_If_Valid_Check(grid, np_pos,np_pos_start):
     if object_start in [0, 1]:
         return False
 
-    if (0 > pos[0]) or (pos[0] > 10) or (0 > pos[1]) or (pos[1] > 10) or (pos[0] + pos[1] > 15) or (
-            pos[0] + pos[1] < 5):
+    if not check_on_board(pos):
         return False
     object_pos = grid[pos[0], pos[1]]
     if object_pos not in [0, 1] and pos != pos_start:
@@ -45,56 +44,41 @@ def check_If_Valid_Check(grid, np_pos,np_pos_start):
             return False
         else:
             return None
-    else:
-        return True
-def king_position(grid, pos_start):
+
+    return True
+def king_position(grid, pos_start, colour):
     for q in range(0, 11):
         for r in range(0, 11):
             if grid[q,r] not in [0, 1]:
-                if grid[q,r].type == KING and grid[q,r].colour == grid[(pos_start[0],pos_start[1])].colour:
-                    return (q,r)
+                if grid[q,r].type == KING and grid[q,r].colour == colour:
+                    coords = (q,r)
+                    print(coords)
+    return coords
     print('mistake')
 
 def in_Check(grid, pos_c, pos_start):
+    P_moves = []
     grid_sim = set_Up_Board(mode = 'blank')
     for q in range(0, 11):
         for r in range(0, 11):
-            grid_sim[q,r] = grid[q,r]
+            if grid[q, r] not in [0, 1]:
+                grid_sim[q,r] = grid[q,r]
     grid_sim[pos_c] = grid[pos_start]
-    king_pos = king_position(grid_sim, pos_start)
+    grid_sim[pos_start] = 0
+    #print([pos_c,grid_sim[pos_c].type])
+    colour = grid[pos_start].colour
+    king_pos = king_position(grid_sim, pos_start, colour)
 
-    knight_checks = knight(grid_sim, king_pos, c=1)
-    bishop_checks = bishop(grid_sim, king_pos, c=1)
-    rook_checks = rook(grid_sim, king_pos, c=1)
-    pawn_checks = pawn(grid_sim, king_pos, c=1)
-    queen_checks = queen(grid_sim, king_pos, c=1)
+    for q in range(0, 11):
+        for r in range(0, 11):
+             if grid_sim[q,r] not in [0, 1]:
+                 if grid_sim[q,r].colour != grid_sim[king_pos]:
+                    P_moves = P_moves + possible_moves(grid_sim, (q,r), c=1)
 
-    for i in knight_checks:
-        pos = (i[0],i[1])
-        if grid_sim[pos] not in [1,0] and pos != king_pos:
-            if grid_sim[pos].type == KNIGHT and grid_sim[pos].colour != grid_sim[king_pos].colour:
+    for i in P_moves:
+            pos = (i[0], i[1])
+            if pos == king_pos:
                 return True
-    for i in bishop_checks:
-        pos = (i[0], i[1])
-        if grid_sim[pos] not in [1,0] and pos != king_pos:
-            if grid_sim[pos].type == BISHOP and grid_sim[pos].colour != grid_sim[king_pos].colour:
-                return True
-    for i in rook_checks:
-        pos = (i[0], i[1])
-        if grid_sim[pos] not in [1,0] and pos != king_pos:
-            if grid_sim[pos].type == ROOK and grid_sim[pos].colour != grid_sim[king_pos].colour:
-                return True
-    for i in pawn_checks:
-        pos = (i[0], i[1])
-        if grid_sim[pos] not in [1,0] and pos != king_pos:
-            if grid_sim[pos].type == PAWN and grid_sim[pos].colour != grid_sim[king_pos].colour:
-                return True
-    for i in queen_checks:
-        pos = (i[0], i[1])
-        if grid_sim[pos] not in [1,0] and pos != king_pos:
-            if grid_sim[pos].type == QUEEN and grid_sim[pos].colour != grid_sim[king_pos].colour:
-                return True
-
     return False
 
 def king(grid, pos, c=0): # returns list of all possible king moves
@@ -191,7 +175,7 @@ def rook(grid, pos, c=0): # returns list of all possible rook moves
             else:
                 moves.append(pos)
 
-            while check_If_Valid_Check(grid, moves[-1], pos) == True or None:
+            while check_If_Valid_Check(grid, moves[-1], pos) == True:
                 moves.append(np.add(moves[-1], (-1, 1)))
             if check_If_Valid_Check(grid, moves[-1], pos) != None:
                 moves[-1] = pos
@@ -203,7 +187,6 @@ def rook(grid, pos, c=0): # returns list of all possible rook moves
 
 def bishop(grid, pos, c=0): # returns list of all possible bishop moves
     moves = [pos]
-
     if c == 0:
         while check_If_Valid(grid, moves[-1], pos) == True:
             moves.append(np.add(moves[-1], (1,1)))
