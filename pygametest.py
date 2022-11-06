@@ -71,7 +71,7 @@ if __name__=="__main__":
                 elif picked_pos == selected_tile:
                     # we picked the same as is selected
                     selected_tile = 0
-                elif check_if_possible_move(grid, flipxy(selected_tile), flipxy(picked_pos)):# and grid[flipxy(selected_tile)].colour == turn:
+                elif check_if_possible_move(grid, flipxy(selected_tile), flipxy(picked_pos)) and grid[flipxy(selected_tile)].colour == turn:
                     
                     # we picked a different tile than is selected
                     # if its a valid move, make the move
@@ -81,11 +81,11 @@ if __name__=="__main__":
                     if grid[flipxy(picked_pos)] not in [0, 1]:
                         piece_idx = grid[flipxy(picked_pos)].type
                     if turn == WHITE:
-                        # turn = BLACK
+                        turn = BLACK
                         captured_black_pieces[piece_idx] += 1
                         print("taken black pieces", captured_black_pieces)
                     else:
-                        # turn = WHITE
+                        turn = WHITE
                         captured_white_pieces[piece_idx] += 1
                         print("taken white pieces", captured_white_pieces)
 
@@ -141,8 +141,14 @@ if __name__=="__main__":
         whitey = 0
         for i in range(1, len(captured_white_pieces)):
             for piece in range(int(captured_white_pieces[i])):
-                g.draw_piece(surface, spritesheet, (origin[0]-8.5 * scale, 100 + whitey * scale), scale, i, WHITE)
+                g.draw_piece(surface, spritesheet, (origin[0]-9.5 * scale, origin[1]-7.5*scale + whitey * scale), scale, i, WHITE)
                 whitey += 1
+         # draw the captured pieces
+        blacky = 0
+        for i in range(1, len(captured_black_pieces)):
+            for piece in range(int(captured_black_pieces[i])):
+                g.draw_piece(surface, spritesheet, (origin[0]+9.5 * scale, origin[1]-7.5*scale + blacky * scale), scale, i, BLACK)
+                blacky += 1
             
 
 

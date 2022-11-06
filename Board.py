@@ -8,6 +8,9 @@ def set_Up_Board(mode="glinski"): # creates board and peices for the starting po
             if q + r >= 5 and q + r <= 15:
                 output[q, r] = 0
 
+    if mode== 'blank':
+        return output    
+
     if mode == 'glinski': #glinski's set up of the board
         # white bishops
         output[10,5] = peices(BISHOP, WHITE)
