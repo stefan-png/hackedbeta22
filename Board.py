@@ -1,13 +1,12 @@
 import numpy as np
 from Peices import *
 
-grid = np.ones(shape=(11, 11), dtype = object)
-for q in range(0, 11):
-    for r in range(0, 11):
-        if q + r >= 5 and q + r <= 15:
-            grid[q, r] = 0
-
 def set_Up_Board(mode="glinski"):
+    grid = np.ones(shape=(11, 11), dtype=object)
+    for q in range(0, 11):
+        for r in range(0, 11):
+            if q + r >= 5 and q + r <= 15:
+                grid[q, r] = 0
     if mode == 'glinski': #placeholder make enum or whatever for glinski's
         # white bishops
         grid[10,5] = peices(BISHOP, WHITE)
