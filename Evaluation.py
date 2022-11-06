@@ -1,6 +1,10 @@
 import numpy as np
 from Board import *
 
+# checks if agiven position would be on the board
+def check_on_board(pos):
+    return pos[0] >= 0 and pos[0] < 11 and pos[1] >= 0 and pos[1] < 11 and (pos[0] + pos[1] <= 15) and (pos[0] + pos[1] >= 5)
+
 def check_If_Valid(grid, np_pos,np_pos_start):# checks if the position is valid
 
     pos_start = (np_pos_start[0],np_pos_start[1])
@@ -10,7 +14,7 @@ def check_If_Valid(grid, np_pos,np_pos_start):# checks if the position is valid
     if object_start in [0, 1]:
         return False
 
-    if (0 > pos[0]) or (pos[0] > 10) or (0 > pos[1]) or (pos[1] > 10) or (pos[0] + pos[1] > 15) or (pos[0] + pos[1] < 5):
+    if not check_on_board(pos):
         return False
     object_pos = grid[pos[0], pos[1]]
     if object_pos not in [0, 1] and pos != pos_start:
