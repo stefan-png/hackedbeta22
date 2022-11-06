@@ -1,13 +1,14 @@
 import numpy as np
 from Peices import *
-
-def set_Up_Board(mode="glinski"):
+def set_Up_Board(mode="glinski"): # creates board and peices for the starting position of the game
+    #creates the a hexagonal 2 dimensional grid o fhte board
     grid = np.ones(shape=(11, 11), dtype=object)
     for q in range(0, 11):
         for r in range(0, 11):
             if q + r >= 5 and q + r <= 15:
                 grid[q, r] = 0
-    if mode == 'glinski': #placeholder make enum or whatever for glinski's
+
+    if mode == 'glinski': #glinski's set up of the board
         # white bishops
         grid[10,5] = peices(BISHOP, WHITE)
         grid[9,5] = peices(BISHOP, WHITE)
@@ -58,4 +59,3 @@ def set_Up_Board(mode="glinski"):
         grid[0, 9] = peices(PAWN, BLACK)
 
     return grid
-
