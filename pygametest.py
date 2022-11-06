@@ -22,6 +22,8 @@ turn = WHITE
 held_piece = peices(NONE, WHITE)
 held_peice_last_pos = (0, 0)
 
+selected_tile = NONE
+
 # game loop
 while True:
 
@@ -49,28 +51,58 @@ while True:
             if not (picked_pos[0] >= 0 and picked_pos[0] < 11 and picked_pos[0] >= 0 and picked_pos[1] < 11):
                 continue
 
-            if grid[picked_pos[1], picked_pos[0]] not in [0, 1]:
+            
+            if grid[picked_pos[1], picked_pos[0]] == 0:
+                # TODO change to check for valid move
+                if selected_tile != 0:
+                    # try to snap to picked pos
+                    grid[picked_pos[1], picked_pos[0]] = grid[selected_tile[1], selected_tile[0]]
+                    grid[selected_tile[1], selected_tile[0]] = 0
+                    selected_tile = 0
+                    # make sure to reset any hold variables
+                    held_piece = 0
+                    held_peice_last_pos = (0, 0)
+                else:
+                    # didn't have any point selected, select this square
+                    selected_tile = picked_pos
+
+            elif grid[picked_pos[1], picked_pos[0]] not in [0, 1]:
+                # picked a piece
+                
+                selected_tile = picked_pos
                 held_piece = grid[picked_pos[1], picked_pos[0]]
                 held_peice_last_pos = picked_pos
                 grid[picked_pos[1], picked_pos[0]] = 0
+                    
         if event.type == pygame.MOUSEBUTTONUP or event.type == pygame.WINDOWLEAVE:            
             #check if on board
             if picked_pos[0] >= 0 and picked_pos[0] < 11 and picked_pos[0] >= 0 and picked_pos[1] < 11 and grid[picked_pos[1], picked_pos[0]] == 0:
 
+                # dragged to valid tile, move the piece
                 grid[picked_pos[1], picked_pos[0]] = held_piece
+                
 
             else:
-                # dragged to valid square, move the piece
-                
+                # dragged to invalid square, replace the piece
                 grid[held_peice_last_pos[1], held_peice_last_pos[0]] = held_piece
+            
+            if held_peice_last_pos != picked_pos:
+                selected_tile = 0
+
             held_piece = 0
             held_peice_last_pos = (0, 0)
+
+
+    # highlight whichever tile is selected
+    if selected_tile != 0:
+        g.draw_hex(surface, numpy.add(axial.axial_to_screen(selected_tile, scale), peter_offset), scale, (230, 230, 120))
+
 
     # draw whatever the player is holding
     if held_piece != 0 and held_piece.type != NONE:
         g.draw_piece(surface, spritesheet, mousepos, scale, held_piece.type, held_piece.colour)
 
-    
+    # draw debug text
     img = font.render("hovering: " + str(picked_pos), True, (1,1,1))
     surface.blit(img, (20, 20))
 
