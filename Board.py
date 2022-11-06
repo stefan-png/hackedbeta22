@@ -7,7 +7,7 @@ for q in range(0, 11):
         if q + r >= 5 and q + r <= 15:
             grid[q, r] = 0
 
-def set_Up_Board(mode):
+def set_Up_Board(mode="glinski"):
     if mode == 'glinski': #placeholder make enum or whatever for glinski's
         # white bishops
         grid[10,5] = peices(BISHOP, WHITE)
@@ -59,4 +59,6 @@ def set_Up_Board(mode):
         grid[6, 8] = peices(PAWN, BLACK)
         grid[6, 9] = peices(PAWN, BLACK)
 
+
+    return grid
 

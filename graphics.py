@@ -1,4 +1,4 @@
-import pygame, math, numpy
+import pygame, math, numpy, Peices
 
 light_colour = (216, 189, 138)
 mid_colour = (170, 80, 66)
@@ -79,18 +79,18 @@ def draw_piece(surface, spritesheet, pos, scale, pieceID, colour):
     
     rect = pawnrect
 
-    if pieceID == "king":
+    if pieceID == Peices.KING:
         rect = kingrect
-    elif pieceID == "queen":
+    elif pieceID == Peices.QUEEN:
         rect = queenrect
-    elif pieceID == "bishop":
+    elif pieceID == Peices.BISHOP:
         rect = bishrect
-    elif pieceID == "knight":
+    elif pieceID == Peices.KNIGHT:
         rect = horserect
-    elif pieceID == "rook":
+    elif pieceID == Peices.ROOK:
         rect = rookrect
 
-    if colour == "black":
+    if colour == Peices.BLACK:
         rect.y += 300
 
     draw_image(surface, image_at(spritesheet, rect), numpy.subtract(pos, (0.75*scale, 0.80*scale)), (1.5*scale, 1.5*scale))
