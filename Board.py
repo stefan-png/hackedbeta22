@@ -23,42 +23,40 @@ def set_Up_Board(mode="glinski"):
         #white rooks
         grid[10,2] = peices(ROOK, WHITE)
         grid[7,8] = peices(ROOK, WHITE)
-        #white pawns
-        grid[10,1] = peices(PAWN, WHITE)
-        grid[9,2] = peices(PAWN, WHITE)
-        grid[8,3] = peices(PAWN, WHITE)
-        grid[7,4] = peices(PAWN, WHITE)
-        grid[6,5] = peices(PAWN, WHITE)
-        grid[6,6] = peices(PAWN, WHITE)
-        grid[6,7] = peices(PAWN, WHITE)
-        grid[6,8] = peices(PAWN, WHITE)
-        grid[6,9] = peices(PAWN, WHITE)
-
-        # white bishops
+        # white pawns
+        grid[10, 1] = peices(PAWN, WHITE)
+        grid[9, 2] = peices(PAWN, WHITE)
+        grid[8, 3] = peices(PAWN, WHITE)
+        grid[7, 4] = peices(PAWN, WHITE)
+        grid[6, 5] = peices(PAWN, WHITE)
+        grid[6, 6] = peices(PAWN, WHITE)
+        grid[6, 7] = peices(PAWN, WHITE)
+        grid[6, 8] = peices(PAWN, WHITE)
+        grid[6, 9] = peices(PAWN, WHITE)
+        # black bishops
         grid[0, 5] = peices(BISHOP, BLACK)
         grid[1, 5] = peices(BISHOP, BLACK)
         grid[2, 5] = peices(BISHOP, BLACK)
-        # white queen
+        # black queen
         grid[1, 4] = peices(QUEEN, BLACK)
-        # white king
+        # black king
         grid[0, 6] = peices(WHITE, BLACK)
-        # white knights
+        # black knights
         grid[2, 3] = peices(KNIGHT, BLACK)
         grid[0, 7] = peices(KNIGHT, BLACK)
-        # white rooks
+        # black rooks
         grid[3, 2] = peices(ROOK, BLACK)
         grid[0, 8] = peices(ROOK, BLACK)
-        # white pawns
-        grid[10, 1] = peices(PAWN, BLACK)
-        grid[9, 2] = peices(PAWN, BLACK)
-        grid[8, 3] = peices(PAWN, BLACK)
-        grid[7, 4] = peices(PAWN, BLACK)
-        grid[6, 5] = peices(PAWN, BLACK)
-        grid[6, 6] = peices(PAWN, BLACK)
-        grid[6, 7] = peices(PAWN, BLACK)
-        grid[6, 8] = peices(PAWN, BLACK)
-        grid[6, 9] = peices(PAWN, BLACK)
-
+        #black pawns
+        grid[4, 1] = peices(PAWN, BLACK)
+        grid[4, 2] = peices(PAWN, BLACK)
+        grid[4, 3] = peices(PAWN, BLACK)
+        grid[4, 4] = peices(PAWN, BLACK)
+        grid[4, 5] = peices(PAWN, BLACK)
+        grid[3, 6] = peices(PAWN, BLACK)
+        grid[2, 7] = peices(PAWN, BLACK)
+        grid[1, 8] = peices(PAWN, BLACK)
+        grid[0, 9] = peices(PAWN, BLACK)
 
     return grid
 
