@@ -124,7 +124,7 @@ if __name__=="__main__":
         if selected_tile != 0 and grid[selected_tile[1], selected_tile[0]] not in [0, 1]:
             # draw dot on each possible move
             for move in Movment.possible_moves(grid, (selected_tile[1], selected_tile[0])):
-                pygame.draw.circle(surface, (200, 200, 200), numpy.add(axial.axial_to_screen((move[1], move[0]), scale), peter_offset), scale/3)
+                pygame.draw.circle(surface, g.get_hex_colour(move[1], move[0]+1), numpy.add(axial.axial_to_screen((move[1], move[0]), scale), peter_offset), scale/3)
 
 
         # draw debug text
