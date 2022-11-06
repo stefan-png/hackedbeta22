@@ -119,7 +119,7 @@ if __name__=="__main__":
         if selected_tile != 0 and grid[selected_tile[1], selected_tile[0]] not in [0, 1] and grid[flipxy(selected_tile)].colour == turn:
             # draw dot on each possible move
             for move in Eval.possible_moves(grid, (selected_tile[1], selected_tile[0])):
-                pygame.draw.circle(surface, g.get_hex_colour(move[1], move[0]+2), numpy.add(axial.axial_to_screen((move[1], move[0]), scale), peter_offset), scale/3)
+                pygame.draw.circle(surface, g.get_hex_colour(move[1], move[0]+2), numpy.add(axial.axial_to_screen((move[1], move[0]), scale), peter_offset), scale*g.SQRT32/2)
 
         # draw debug text
         img = font.render("hovering: " + str(picked_pos), True, (1,1,1))

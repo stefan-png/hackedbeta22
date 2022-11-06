@@ -38,8 +38,10 @@ def check_If_Valid(grid, np_pos,np_pos_start):
 
     if pos == pos_start:
         return True
-
+    
     object_pos = grid[pos[0], pos[1]]
+
+
     if get_piece_type_at(grid, pos) != NONE:
         # try to move onto some other piece
         if object_pos.colour == object_start.colour:
@@ -56,22 +58,28 @@ def check_If_Valid(grid, np_pos,np_pos_start):
     return not in_Check(grid, pos, pos_start)
 
 def check_If_Valid_Check(grid, np_pos,np_pos_start):
-    pos_start = (np_pos_start[0], np_pos_start[1])
-    pos = (np_pos[0], np_pos[1])
+    pos_start = (np_pos_start[0],np_pos_start[1])
+    pos = (np_pos[0],np_pos[1])
     object_start = grid[pos_start]
 
-    if object_start in [0, 1]:
+    if get_piece_type_at(grid, pos_start) == NONE:
         return False
 
     if not check_on_board(pos):
         return False
+
+    if pos == pos_start:
+        return True
+
     object_pos = grid[pos[0], pos[1]]
-    if object_pos not in [0, 1] and pos != pos_start:
+    if get_piece_type_at(grid, pos) != NONE:
+        # try to move onto some other piece
         if object_pos.colour == object_start.colour:
+            # if try to move onto own piece
             return False
         else:
+            # if try to attack other piece
             return None
-
     return True
 
 def king_position(grid, colour):
@@ -102,24 +110,28 @@ def in_Check(grid, pos_c, pos_start):
     grid_sim[tuple(pos_c)] = grid_sim[tuple(pos_start)]
     grid_sim[tuple(pos_start)] = 0
     debug_print_board
-
+        
     # color of the piece moved
     king_colour = grid_sim[pos_c].colour
     # position of king on simulated grid after making the simulated move
     king_pos = king_position(grid_sim, king_colour)
 
+    if get_piece_type_at(grid, pos_start) == KING:
+        king_colour = grid[tuple(pos_start)].colour
+        king_pos = tuple(pos_c)
+
     # loop through each enemy piece and find its possible moves
     for q in range(0, 11):
         for r in range(0, 11):
-             if grid_sim[q,r] not in [0, 1]:
+             if get_piece_type_at(grid_sim, (q,r)) != NONE:
                  if grid_sim[q,r].colour != king_colour:
-                    P_moves = P_moves + possible_moves(grid_sim, (q,r), c=1)
+                    P_moves += possible_moves(grid_sim, (q,r), c=1)
 
     # are any of the enemy possible moves capturing the king?
-    for i in P_moves:
-        pos = (i[0], i[1])
-        if pos == king_pos:
-            return True
+    for move in P_moves:
+        if tuple(move) == tuple(king_pos):
+            return  True
+        
     return False
 
 def king(grid, pos, c=0): # returns list of all possible king moves
@@ -127,10 +139,10 @@ def king(grid, pos, c=0): # returns list of all possible king moves
     m = [(1,1),(1,-1),(1,0),(-1,1),(-1,-1),(-1,0),(0,1),(0,-1),(2,-1),(-2,1),(1,-2),(-1,2)]
     for i in m:
         if c == 0:
-            if check_If_Valid(grid, np.add(pos,i), pos) in [True or None]:
+            if check_If_Valid(grid, np.add(pos,i), pos) in [True, None]:
                 moves.append(np.add(pos,i))
         else:
-            if check_If_Valid_Check(grid, np.add(pos,i), pos) in [True or None]:
+            if check_If_Valid_Check(grid, np.add(pos,i), pos) in [True, None]:
                 moves.append(np.add(pos,i))
 
     disp(pos, moves)
@@ -322,10 +334,10 @@ def knight(grid, pos, c=0): # returns list of all possible knight moves
     m = [(1,-3),(-1,-2),(-2,-1),(-3,1),(-3,2),(-2,3),(-1,3),(1,2),(2,1),(3,-1),(3,-2),(2,-3)]
     for i in m:
         if c == 0:
-            if check_If_Valid(grid, np.add(pos,i), pos) in [True or None]:
+            if check_If_Valid(grid, np.add(pos,i), pos) in [True, None]:
                 moves.append(np.add(pos,i))
         else:
-            if check_If_Valid_Check(grid, np.add(pos,i), pos) in [True or None]:
+            if check_If_Valid_Check(grid, np.add(pos,i), pos) in [True, None]:
                 moves.append(np.add(pos,i))
 
     disp(pos, moves)
