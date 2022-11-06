@@ -33,30 +33,30 @@ def set_Up_Board(mode):
         grid[6,7] = peices(type(4), colour(1))
         grid[6,8] = peices(type(4), colour(1))
         grid[6,9] = peices(type(4), colour(1))
-
-        # white bishops
+        # black bishops
         grid[0, 5] = peices(type(2), colour(0))
         grid[1, 5] = peices(type(2), colour(0))
         grid[2, 5] = peices(type(2), colour(0))
-        # white queen
+        # black queen
         grid[1, 4] = peices(type(5), colour(0))
-        # white king
+        # black king
         grid[0, 6] = peices(type(6), colour(0))
-        # white knights
+        # black knights
         grid[2, 3] = peices(type(3), colour(0))
         grid[0, 7] = peices(type(3), colour(0))
-        # white rooks
+        # black rooks
         grid[3, 2] = peices(type(4), colour(0))
         grid[0, 8] = peices(type(4), colour(0))
-        # white pawns
-        grid[10, 1] = peices(type(4), colour(0))
-        grid[9, 2] = peices(type(4), colour(0))
-        grid[8, 3] = peices(type(4), colour(0))
-        grid[7, 4] = peices(type(4), colour(0))
-        grid[6, 5] = peices(type(4), colour(0))
-        grid[6, 6] = peices(type(4), colour(0))
-        grid[6, 7] = peices(type(4), colour(0))
-        grid[6, 8] = peices(type(4), colour(0))
-        grid[6, 9] = peices(type(4), colour(0))
+        # black pawns
+        grid[4, 1] = peices(type(4), colour(0))
+        grid[4, 2] = peices(type(4), colour(0))
+        grid[4, 3] = peices(type(4), colour(0))
+        grid[4, 4] = peices(type(4), colour(0))
+        grid[4, 5] = peices(type(4), colour(0))
+        grid[3, 6] = peices(type(4), colour(0))
+        grid[2, 7] = peices(type(4), colour(0))
+        grid[1, 8] = peices(type(4), colour(0))
+        grid[0, 9] = peices(type(4), colour(0))
 
-
+set_Up_Board('glinski')
+print(grid)
