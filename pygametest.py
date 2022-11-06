@@ -19,7 +19,7 @@ origin = (screen_width/2, screen_height/2)
 
 # setup board
 grid = set_Up_Board()
-turn = WHITE
+turn = BLACK # WHITE
 print(Eval.check_If_Valid(grid, (4,4), (10,4)))
 if __name__=="__main__":
 
@@ -35,8 +35,8 @@ if __name__=="__main__":
 
     selected_tile = NONE
 
-    taken_white_pieces = numpy.zeros(7)
-    taken_black_pieces = numpy.zeros(7)
+    captured_white_pieces = numpy.zeros(7)
+    captured_black_pieces = numpy.zeros(7)
 
     # game loop
     while True:
@@ -81,13 +81,13 @@ if __name__=="__main__":
                     if grid[flipxy(picked_pos)] not in [0, 1]:
                         piece_idx = grid[flipxy(picked_pos)].type
                     if turn == WHITE:
-                        turn = BLACK
-                        taken_black_pieces[piece_idx] += 1
-                        print("taken black pieces", taken_black_pieces)
+                        # turn = BLACK
+                        captured_black_pieces[piece_idx] += 1
+                        print("taken black pieces", captured_black_pieces)
                     else:
-                        turn = WHITE
-                        taken_white_pieces[piece_idx] += 1
-                        print("taken white pieces", taken_white_pieces)
+                        # turn = WHITE
+                        captured_white_pieces[piece_idx] += 1
+                        print("taken white pieces", captured_white_pieces)
 
                     grid[picked_pos[1], picked_pos[0]] = grid[selected_tile[1], selected_tile[0]]
                     grid[selected_tile[1], selected_tile[0]] = 0
@@ -136,6 +136,14 @@ if __name__=="__main__":
 
         # draw piece held in cursor
 
+
+        # draw the captured pieces
+        whitey = 0
+        for i in range(1, len(captured_white_pieces)):
+            for piece in range(int(captured_white_pieces[i])):
+                g.draw_piece(surface, spritesheet, (origin[0]-8.5 * scale, 100 + whitey * scale), scale, i, WHITE)
+                whitey += 1
+            
 
 
         # do the transparent stuff maybe 

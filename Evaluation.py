@@ -6,6 +6,14 @@ from Movment import *
 def check_on_board(pos):
     return pos[0] >= 0 and pos[0] < 11 and pos[1] >= 0 and pos[1] < 11 and (pos[0] + pos[1] <= 15) and (pos[0] + pos[1] >= 5)
 
+# returns the type of the piece at a given position
+# if you query a tile which is off the board, or is empty, returns NONE
+def get_piece_type_at(grid, pos):
+    if (not check_on_board(pos)) or grid[pos] in [0, 1]:
+        return NONE
+    else:
+        return grid[pos].type
+
 def check_If_Valid(grid, np_pos,np_pos_start):# checks if the position is valid
     pos_start = (np_pos_start[0],np_pos_start[1])
     pos = (np_pos[0],np_pos[1])
@@ -293,7 +301,81 @@ def pawn(grid, pos, c=0):
     moves = []
     posy = (pos[0], pos[1])
     r_grid = set_Up_Board()
+    
+    if c == 0:
+        if grid[posy].colour == WHITE:
+            if check_If_Valid(grid, np.subtract(pos, (1,0)), pos) == True:
+              moves.append(np.subtract(pos, (1, 0)))
+            if get_piece_type_at(grid, (pos[0]-1, pos[1]-1)) != NONE:
+                if grid[(np.add((-1, -1), pos)[0], np.add((-1, -1), pos)[1])].colour == BLACK:
+                    if check_If_Valid(grid, np.add((-1, -1), pos), pos) == None:
+                        moves.append(np.add((-1, -1), pos))
+            if get_piece_type_at(grid, (pos[0]-2 , pos[1]+1)) != NONE:
+                if grid[(np.add((-2,1), pos)[0], np.add((-2,1), pos)[1])].colour == BLACK:
+                    if check_If_Valid(grid, np.add((-2,1), pos), pos) == None:
+                        moves.append(np.add((-2,1), pos))
+            if r_grid[posy] not in [0,1]:
+                if grid[posy].type == r_grid[posy].type and grid[posy].colour == grid[posy].colour:
+                    if check_If_Valid(grid, np.subtract(pos, (1,0)), pos) == True:
+                        if check_If_Valid(grid, np.subtract(pos, (2, 0)), pos) == True:
+                            moves.append(np.subtract(pos, (2, 0)))
+        else:
+            if check_If_Valid(grid, np.add(pos, (1,0)), pos) == True:
+              moves.append(np.add(pos, (1, 0)))
+            if get_piece_type_at(grid, (pos[0]+1, pos[1]+1)) != NONE:
+                if grid[(np.add((1,1), pos)[0], np.add((1,1), pos)[1])].colour == WHITE:
+                    if check_If_Valid(grid, np.add((1, 1), pos), pos) == None:
+                        moves.append(np.add((1, 1), pos))
 
+            if get_piece_type_at(grid, (pos[0]+2 , pos[1]-1)) != NONE:
+                if grid[(np.add((2,-1), pos)[0], np.add((2,-1), pos)[1])].colour == WHITE:
+                    if check_If_Valid(grid, np.add((2,-1), pos), pos) == None:
+
+                        moves.append(np.add((2,-1), pos))
+            if r_grid[posy] not in [0,1]:
+                if grid[posy].type == r_grid[posy].type and grid[posy].colour == grid[posy].colour:
+                    if check_If_Valid(grid, np.add(pos, (1,0)), pos) == True:
+                        if check_If_Valid(grid, np.add(pos, (2, 0)), pos) == True:
+                            moves.append(np.add(pos, (2, 0)))
+    else:
+        if grid[posy].colour == WHITE:
+            if check_If_Valid_Check(grid, np.subtract(pos, (1,0)), pos) == True:
+              moves.append(np.subtract(pos, (1, 0)))
+            if get_piece_type_at(grid, (pos[0]-1, pos[1]-1)) != NONE:
+                if grid[(np.add((-1, -1), pos)[0], np.add((-1, -1), pos)[1])].colour == BLACK:
+                    if check_If_Valid_Check(grid, np.add((-1, -1), pos), pos) == None:
+                        moves.append(np.add((-1, -1), pos))
+
+            if get_piece_type_at(grid, (pos[0]-2 , pos[1]+1)) != NONE:
+                if grid[(np.add((-2,1), pos)[0], np.add((-2,1), pos)[1])].colour == BLACK:
+                    if check_If_Valid_Check(grid, np.add((-2,1), pos), pos) == None:
+
+                        moves.append(np.add((-2,1), pos))
+            if r_grid[posy] not in [0,1]:
+                if grid[posy].type == r_grid[posy].type and grid[posy].colour == grid[posy].colour:
+                    if check_If_Valid_Check(grid, np.subtract(pos, (1,0)), pos) == True:
+                        if check_If_Valid_Check(grid, np.subtract(pos, (2, 0)), pos) == True:
+                            moves.append(np.subtract(pos, (2, 0)))
+        else:
+            if check_If_Valid_Check(grid, np.add(pos, (1,0)), pos) == True:
+              moves.append(np.add(pos, (1, 0)))
+            if get_piece_type_at(grid, (pos[0]+1, pos[1]+1)) != NONE:
+                if grid[(np.add((1,1), pos)[0], np.add((1,1), pos)[1])].colour == WHITE:
+                    if check_If_Valid_Check(grid, np.add((1, 1), pos), pos) == None:
+                        moves.append(np.add((1, 1), pos))
+
+            if get_piece_type_at(grid, (pos[0]+2 , pos[1]-1)) != NONE:
+                if grid[(np.add((2,-1), pos)[0], np.add((2,-1), pos)[1])].colour == WHITE:
+                    if check_If_Valid_Check(grid, np.add((2,-1), pos), pos) == None:
+
+                        moves.append(np.add((2,-1), pos))
+            if r_grid[posy] not in [0,1]:
+                if grid[posy].type == r_grid[posy].type and grid[posy].colour == grid[posy].colour:
+                    if check_If_Valid_Check(grid, np.add(pos, (1,0)), pos) == True:
+                        if check_If_Valid_Check(grid, np.add(pos, (2, 0)), pos) == True:
+                            moves.append(np.add(pos, (2, 0)))
+        
+    """
     if c == 0:
         if grid[posy].colour == WHITE:
             if check_If_Valid(grid, np.subtract(pos, (1,0)), pos) == True:
@@ -366,7 +448,7 @@ def pawn(grid, pos, c=0):
                     if check_If_Valid_Check(grid, np.add(pos, (1,0)), pos) == True:
                         if check_If_Valid_Check(grid, np.add(pos, (2, 0)), pos) == True:
                             moves.append(np.add(pos, (2, 0)))
-
+        """
     return moves
 
 def queen(grid, pos, c=0): # retunrs list of all possible queen moves
