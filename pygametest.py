@@ -40,7 +40,7 @@ while True:
         # if event.type == pygame.MOUSEBUTTONDOWN:            
 
     
-    img = font.render("hovering: " + str(numpy.add(axialpos, (5, 5))), True, (1,1,1))
+    img = font.render("hovering: " + str(numpy.add((axialpos[1], axialpos[0]), (5, 5))), True, (1,1,1))
     surface.blit(img, (20, 20))
 
 
