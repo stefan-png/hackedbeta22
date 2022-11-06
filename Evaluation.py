@@ -292,6 +292,47 @@ def knight(grid, pos, c=0): # returns list of all possible knight moves
 
 def pawn(grid, pos, c=0):
     moves = []
+    posy = (pos[0], pos[1])
+    r_grid = set_Up_Board()
+
+    if c == 0:
+        if grid[posy].colour == WHITE:
+            if check_If_Valid(grid, np.subtract(pos, (1,0)), pos) == True:
+              moves.append(np.subtract(pos, (1, 0)))
+            if grid[(np.add((-1,-1),pos)[0] , np.add((-1,-1),pos)[1])] not in [1,0]:
+                if grid[(np.add((-1, -1), pos)[0], np.add((-1, -1), pos)[1])].colour == BLACK:
+                    if check_If_Valid(grid, np.add((-1, -1), pos), pos) == None:
+                        moves.append(np.add((-1, -1), pos))
+                        print('yes')
+            if grid[(np.add((-2,1),pos)[0] , np.add((-2,1),pos)[1])] not in [1,0]:
+                if grid[(np.add((-2,1), pos)[0], np.add((-2,1), pos)[1])].colour == BLACK:
+                    if check_If_Valid(grid, np.add((-2,1), pos), pos) == None:
+                        print('yes')
+                        moves.append(np.add((-2,1), pos))
+            if r_grid[posy] not in [0,1]:
+                if grid[posy].type == r_grid[posy].type and grid[posy].colour == grid[posy].colour:
+                    if check_If_Valid(grid, np.subtract(pos, (1,0)), pos) == True:
+                        if check_If_Valid(grid, np.subtract(pos, (2, 0)), pos) == True:
+                            moves.append(np.subtract(pos, (2, 0)))
+        else:
+            if check_If_Valid(grid, np.add(pos, (1,0)), pos) == True:
+              moves.append(np.add(pos, (1, 0)))
+            if grid[(np.subtract((-1,-1),pos)[0] , np.subtract((-1,-1),pos)[1])] not in [1,0]:
+                if grid[(np.subtract((-1, -1), pos)[0], np.subtract((-1, -1), pos)[1])].colour == WHITE:
+                    if check_If_Valid(grid, np.subtract((-1, -1), pos), pos) == None:
+                        moves.append(np.subtract((-1, -1), pos))
+                        print('yes')
+            if grid[(np.subtract((-2,1),pos)[0] , np.subtract((-2,1),pos)[1])] not in [1,0]:
+                if grid[(np.subtract((-2,1), pos)[0], np.subtract((-2,1), pos)[1])].colour == WHITE:
+                    if check_If_Valid(grid, np.subtract((-2,1), pos), pos) == None:
+                        print('yes')
+                        moves.append(np.subtract((-2,1), pos))
+            if r_grid[posy] not in [0,1]:
+                if grid[posy].type == r_grid[posy].type and grid[posy].colour == grid[posy].colour:
+                    if check_If_Valid(grid, np.add(pos, (1,0)), pos) == True:
+                        if check_If_Valid(grid, np.add(pos, (2, 0)), pos) == True:
+                            moves.append(np.add(pos, (2, 0)))
+
     return moves
 
 def queen(grid, pos, c=0): # retunrs list of all possible queen moves
