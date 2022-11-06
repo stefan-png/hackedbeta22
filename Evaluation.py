@@ -2,7 +2,7 @@ import numpy as np
 from Board import *
 
 
-grid = set_Up_Board(mode= 'glinski')
+grid = set_Up_Board(mode = 'glinski')
 
 def check_If_Valid(np_pos,np_pos_start):# checks if the position is valid
     pos_start = (np_pos_start[0],np_pos_start[1])
