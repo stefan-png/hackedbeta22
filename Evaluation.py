@@ -14,7 +14,7 @@ def check_If_Valid(np_pos,np_pos_start):# checks if the position is valid
         if object_pos.colour == object_start.colour:
             return False
     elif in_Check() == True:
-        return false
+        return False
     else:
         return True
 
