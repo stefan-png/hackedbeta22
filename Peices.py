@@ -1,15 +1,13 @@
 from enum import Enum
-class type(Enum):
-    pawn = 1
-    bishop = 2
-    knight = 3
-    rook = 4
-    queen = 5
-    king = 6
+PAWN = 1
+BISHOP = 2
+KNIGHT = 3
+ROOK = 4
+QUEEN = 5
+KING = 6
 
-class colour(Enum):
-    white = 1
-    black = 0
+BLACK = 0
+WHITE = 1
 
 class peices:
     def __init__(self, type, colour):
