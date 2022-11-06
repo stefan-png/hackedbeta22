@@ -71,7 +71,7 @@ if __name__=="__main__":
                 elif picked_pos == selected_tile:
                     # we picked the same as is selected
                     selected_tile = 0
-                elif check_if_possible_move(grid, flipxy(selected_tile), flipxy(picked_pos)) and grid[flipxy(selected_tile)].colour == turn:
+                elif check_if_possible_move(grid, flipxy(selected_tile), flipxy(picked_pos)):# and grid[flipxy(selected_tile)].colour == turn:
                     
                     # we picked a different tile than is selected
                     # if its a valid move, make the move
@@ -135,6 +135,8 @@ if __name__=="__main__":
                 g.draw_piece(surface, spritesheet, numpy.add(axial.axial_to_screen((y, x), scale), peter_offset), scale, piece, colour)
 
         # draw piece held in cursor
+
+
 
         # do the transparent stuff maybe 
         pygame.display.flip()
