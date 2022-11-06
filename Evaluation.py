@@ -52,9 +52,8 @@ def king_position(grid, pos_start, colour):
             if grid[q,r] not in [0, 1]:
                 if grid[q,r].type == KING and grid[q,r].colour == colour:
                     coords = (q,r)
-                    print(coords)
+
     return coords
-    print('mistake')
 
 def in_Check(grid, pos_c, pos_start):
     P_moves = []
@@ -65,7 +64,7 @@ def in_Check(grid, pos_c, pos_start):
                 grid_sim[q,r] = grid[q,r]
     grid_sim[pos_c] = grid[pos_start]
     grid_sim[pos_start] = 0
-    #print([pos_c,grid_sim[pos_c].type])
+
     colour = grid[pos_start].colour
     king_pos = king_position(grid_sim, pos_start, colour)
 
@@ -303,11 +302,9 @@ def pawn(grid, pos, c=0):
                 if grid[(np.add((-1, -1), pos)[0], np.add((-1, -1), pos)[1])].colour == BLACK:
                     if check_If_Valid(grid, np.add((-1, -1), pos), pos) == None:
                         moves.append(np.add((-1, -1), pos))
-                        print('yes')
             if grid[(np.add((-2,1),pos)[0] , np.add((-2,1),pos)[1])] not in [1,0]:
                 if grid[(np.add((-2,1), pos)[0], np.add((-2,1), pos)[1])].colour == BLACK:
                     if check_If_Valid(grid, np.add((-2,1), pos), pos) == None:
-                        print('yes')
                         moves.append(np.add((-2,1), pos))
             if r_grid[posy] not in [0,1]:
                 if grid[posy].type == r_grid[posy].type and grid[posy].colour == grid[posy].colour:
@@ -321,11 +318,11 @@ def pawn(grid, pos, c=0):
                 if grid[(np.add((1,1), pos)[0], np.add((1,1), pos)[1])].colour == WHITE:
                     if check_If_Valid(grid, np.add((1, 1), pos), pos) == None:
                         moves.append(np.add((1, 1), pos))
-                        print('yes')
+
             if grid[(np.add((2,-1),pos)[0] , np.add((2,-1),pos)[1])] not in [1,0]:
                 if grid[(np.add((2,-1), pos)[0], np.add((2,-1), pos)[1])].colour == WHITE:
                     if check_If_Valid(grid, np.add((2,-1), pos), pos) == None:
-                        print('yes')
+
                         moves.append(np.add((2,-1), pos))
             if r_grid[posy] not in [0,1]:
                 if grid[posy].type == r_grid[posy].type and grid[posy].colour == grid[posy].colour:
@@ -340,11 +337,11 @@ def pawn(grid, pos, c=0):
                 if grid[(np.add((-1, -1), pos)[0], np.add((-1, -1), pos)[1])].colour == BLACK:
                     if check_If_Valid_Check(grid, np.add((-1, -1), pos), pos) == None:
                         moves.append(np.add((-1, -1), pos))
-                        print('yes')
+
             if grid[(np.add((-2,1),pos)[0] , np.add((-2,1),pos)[1])] not in [1,0]:
                 if grid[(np.add((-2,1), pos)[0], np.add((-2,1), pos)[1])].colour == BLACK:
                     if check_If_Valid_Check(grid, np.add((-2,1), pos), pos) == None:
-                        print('yes')
+
                         moves.append(np.add((-2,1), pos))
             if r_grid[posy] not in [0,1]:
                 if grid[posy].type == r_grid[posy].type and grid[posy].colour == grid[posy].colour:
@@ -358,11 +355,11 @@ def pawn(grid, pos, c=0):
                 if grid[(np.add((1,1), pos)[0], np.add((1,1), pos)[1])].colour == WHITE:
                     if check_If_Valid_Check(grid, np.add((1, 1), pos), pos) == None:
                         moves.append(np.add((1, 1), pos))
-                        print('yes')
+
             if grid[(np.add((2,-1),pos)[0] , np.add((2,-1),pos)[1])] not in [1,0]:
                 if grid[(np.add((2,-1), pos)[0], np.add((2,-1), pos)[1])].colour == WHITE:
                     if check_If_Valid_Check(grid, np.add((2,-1), pos), pos) == None:
-                        print('yes')
+
                         moves.append(np.add((2,-1), pos))
             if r_grid[posy] not in [0,1]:
                 if grid[posy].type == r_grid[posy].type and grid[posy].colour == grid[posy].colour:
@@ -388,7 +385,6 @@ def disp(pos, moves,c=0): # diplays the possible moves on a terminal grid
         output[(moves[i][0],moves[i][1])] = 2
         output[(pos[0],pos[1])] = 9
 
-   # print(output)
 
 def possible_moves(grid, pos, c=0):
     if grid[pos].type == ROOK:
