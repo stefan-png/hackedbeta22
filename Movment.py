@@ -1,11 +1,11 @@
 import numpy as np
-import Evaluation
+from Evaluation import *
 
 def king(pos): # returns list of all possible king moves
     moves = []
     m = [(1,1),(1,-1),(1,0),(-1,1),(-1,-1),(-1,0),(0,1),(0,-1),(2,-1),(-2,1),(1,-2),(-1,2)]
     for i in m:
-        if check_If_Valid(np.add(pos,i), grid(pos)) == True:
+        if check_If_Valid(np.add(pos,i), pos) == True:
             moves.append(np.add(pos,i))
     disp(pos, moves)
     return moves
@@ -68,6 +68,7 @@ def bishop(pos): # returns list of all possible bishop moves
     moves[-1] = pos
 
     disp(pos, moves)
+
     return moves
 
 def knight(pos): # returns list of all possible knight moves
@@ -97,3 +98,4 @@ def disp(pos, moves): # diplays the possible moves on a terminal grid
 
     print(grid)
 
+queen(np.array([10,4]))
