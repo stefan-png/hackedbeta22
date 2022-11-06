@@ -55,39 +55,44 @@ def king_position(grid, pos_start):
                     return (q,r)
     print('mistake')
 
-def in_Check(grid, pos, pos_start):
-    king_pos = king_position(grid,pos_start)
+def in_Check(grid, pos_c, pos_start):
+    grid_sim = set_Up_Board(mode = 'blank')
+    for q in range(0, 11):
+        for r in range(0, 11):
+            grid_sim[q,r] = grid[q,r]
+    grid_sim[pos_c] = grid[pos_start]
+    king_pos = king_position(grid_sim, pos_start)
 
-    knight_checks = knight(grid, king_pos, c=1)
-    bishop_checks = bishop(grid, king_pos, c=1)
-    rook_checks = rook(grid, king_pos, c=1)
-    pawn_checks = pawn(grid, king_pos, c=1)
-    queen_checks = queen(grid, king_pos, c=1)
+    knight_checks = knight(grid_sim, king_pos, c=1)
+    bishop_checks = bishop(grid_sim, king_pos, c=1)
+    rook_checks = rook(grid_sim, king_pos, c=1)
+    pawn_checks = pawn(grid_sim, king_pos, c=1)
+    queen_checks = queen(grid_sim, king_pos, c=1)
 
     for i in knight_checks:
         pos = (i[0],i[1])
-        if grid[pos] not in [1,0] and pos != king_pos:
-            if grid[pos].type == KNIGHT and grid[pos].colour != grid[king_pos].colour:
+        if grid_sim[pos] not in [1,0] and pos != king_pos:
+            if grid_sim[pos].type == KNIGHT and grid_sim[pos].colour != grid_sim[king_pos].colour:
                 return True
     for i in bishop_checks:
         pos = (i[0], i[1])
-        if grid[pos] not in [1,0] and pos != king_pos:
-            if grid[pos].type == BISHOP and grid[pos].colour != grid[king_pos].colour:
+        if grid_sim[pos] not in [1,0] and pos != king_pos:
+            if grid_sim[pos].type == BISHOP and grid_sim[pos].colour != grid_sim[king_pos].colour:
                 return True
     for i in rook_checks:
         pos = (i[0], i[1])
-        if grid[pos] not in [1,0] and pos != king_pos:
-            if grid[pos].type == ROOK and grid[pos].colour != grid[king_pos].colour:
+        if grid_sim[pos] not in [1,0] and pos != king_pos:
+            if grid_sim[pos].type == ROOK and grid_sim[pos].colour != grid_sim[king_pos].colour:
                 return True
     for i in pawn_checks:
         pos = (i[0], i[1])
-        if grid[pos] not in [1,0] and pos != king_pos:
-            if grid[pos].type == PAWN and grid[pos].colour != grid[king_pos].colour:
+        if grid_sim[pos] not in [1,0] and pos != king_pos:
+            if grid_sim[pos].type == PAWN and grid_sim[pos].colour != grid_sim[king_pos].colour:
                 return True
     for i in queen_checks:
         pos = (i[0], i[1])
-        if grid[pos] not in [1,0] and pos != king_pos:
-            if grid[pos].type == QUEEN and grid[pos].colour != grid[king_pos].colour:
+        if grid_sim[pos] not in [1,0] and pos != king_pos:
+            if grid_sim[pos].type == QUEEN and grid_sim[pos].colour != grid_sim[king_pos].colour:
                 return True
 
     return False
