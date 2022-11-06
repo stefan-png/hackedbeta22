@@ -1,7 +1,7 @@
 import sys, pygame, math
 import numpy
 
-import axial, graphics as g, Evaluation
+import axial, graphics as g, Movment
 from Board import *
 
 screen_width = 800
@@ -44,8 +44,6 @@ if __name__=="__main__":
         pos = numpy.add(axial.axial_to_screen(picked_pos, scale), peter_offset)
         g.draw_hex(surface, pos, scale, (230, 230, 240), 4)
 
-        pygame.draw.circle(surface, (200, 200, 200), pos, scale/3)
-        
         for event in pygame.event.get():
             if event.type == pygame.QUIT: 
                 sys.exit()
@@ -106,6 +104,14 @@ if __name__=="__main__":
         # draw whatever the player is holding
         if held_piece != 0 and held_piece.type != NONE:
             g.draw_piece(surface, spritesheet, mousepos, scale, held_piece.type, held_piece.colour)
+
+        # draw all possible moves for selected piece
+        if selected_tile != 0:
+            # draw dot on each possible move
+            for move in Movment.possible_moves((selected_tile[1], selected_tile[0])):
+                print(move[1], move[0])
+                pygame.draw.circle(surface, (200, 200, 200), numpy.add(axial.axial_to_screen((move[1], move[0]), scale), peter_offset), scale/3)
+
 
         # draw debug text
         img = font.render("hovering: " + str(picked_pos), True, (1,1,1))

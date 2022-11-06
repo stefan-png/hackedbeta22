@@ -90,30 +90,33 @@ def queen(pos): # retunrs list of all possible queen moves
     return moves
 
 def disp(pos, moves): # diplays the possible moves on a terminal grid
-    grid = np.ones(shape= (11,11))
+    output = np.ones(shape= (11,11))
     for q in range(0,11):
         for r in range(0,11):
             if q + r >= 5 and q + r <= 15:
-                grid[q,r] = 0
+                output[q,r] = 0
 
     for i in range(0,len(moves)):
-        grid[(moves[i][0],moves[i][1])] = 2
-        grid[(pos[0],pos[1])] = 9
+        output[(moves[i][0],moves[i][1])] = 2
+        output[(pos[0],pos[1])] = 9
 
-    print(grid)
+    print(output)
 
 def possible_moves(pos):
     if grid[pos].type == ROOK:
-        rook(np.array(pos))
+        return rook(np.array(pos))
     elif grid[pos].type == BISHOP:
-        bishop(np.array(pos))
+        return bishop(np.array(pos))
     elif grid[pos].type == PAWN:
-        pawn(np.array(pos))
+        return pawn(np.array(pos))
     elif grid[pos].type == KING:
-        king(np.array(pos))
+        return king(np.array(pos))
     elif grid[pos].type == QUEEN:
-        queen(np.array(pos))
+        return queen(np.array(pos))
     elif grid[pos].type == KNIGHT:
-        knight(np.array(pos))
+        return knight(np.array(pos))
     else:
-        print('error')
+        print('error in possible moves, invalid type')
+        return []
+
+possible_moves((9,6))
