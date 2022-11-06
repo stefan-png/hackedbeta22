@@ -17,6 +17,9 @@ hex_offset = [
                 (-1, 0),
             ]
 
+def get_hex_colour(q, r):
+    return tile_colours[(r+2*q+5)%3]
+
 def draw_hex(surface, pos, scale, colour, width=0):
     
     transformed_offset = []
@@ -37,8 +40,8 @@ def draw_board(surface, pos, scale):
     # draw sides
     for x in range(6):
         for y in range(-5, 6-x):
-            draw_hex(surface, numpy.add(pos, (x*1.5*scale, y*yoffset+half_yoffset*x)), scale,  tile_colours[(x+2*y+5)%3])
-            draw_hex(surface, numpy.add(pos, (-x*1.5*scale, y*yoffset+half_yoffset*x)), scale,  tile_colours[(x+2*y+5)%3])
+            draw_hex(surface, numpy.add(pos, (x*1.5*scale, y*yoffset+half_yoffset*x)), scale,  get_hex_colour(x, y))
+            draw_hex(surface, numpy.add(pos, (-x*1.5*scale, y*yoffset+half_yoffset*x)), scale,  get_hex_colour(x, y))
 
 def load_spritesheet(filename):
         """Load the sheet."""
