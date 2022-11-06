@@ -55,13 +55,9 @@ while True:
                 grid[picked_pos[1], picked_pos[0]] = 0
         if event.type == pygame.MOUSEBUTTONUP or event.type == pygame.WINDOWLEAVE:            
             #check if on board
-            if picked_pos[0] >= 0 and picked_pos[0] < 11 and picked_pos[0] >= 0 and picked_pos[1] < 11:
+            if picked_pos[0] >= 0 and picked_pos[0] < 11 and picked_pos[0] >= 0 and picked_pos[1] < 11 and grid[picked_pos[1], picked_pos[0]] == 0:
 
-                if grid[picked_pos[1], picked_pos[0]] == 0:
-                    # dragged to invalid square, dont move the piece
-                    grid[picked_pos[1], picked_pos[0]] = held_piece
-                elif grid[picked_pos[1], picked_pos[0]] == 1:
-                    print("polacing onto invalid square!!")
+                grid[picked_pos[1], picked_pos[0]] = held_piece
 
             else:
                 # dragged to valid square, move the piece
@@ -70,6 +66,9 @@ while True:
             held_piece = 0
             held_peice_last_pos = (0, 0)
 
+    # draw whatever the player is holding
+    if held_piece != 0 and held_piece.type != NONE:
+        g.draw_piece(surface, spritesheet, mousepos, scale, held_piece.type, held_piece.colour)
 
     
     img = font.render("hovering: " + str(picked_pos), True, (1,1,1))
