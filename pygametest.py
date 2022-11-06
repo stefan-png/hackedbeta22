@@ -17,7 +17,7 @@ font = pygame.font.SysFont(None, 24)
 while True:
 
     # state
-    scale = 40
+    scale = 20
 
     # draw background
     surface.fill((255, 255, 255, 255))
@@ -25,22 +25,24 @@ while True:
 
     mousepos = pygame.mouse.get_pos()
 
-    axialpos = axial.axial_round(axial.screen_to_axial(numpy.subtract(mousepos, origin), scale))
-    pos = numpy.add(axial.axial_to_screen(axialpos, scale), origin)
+    peter_offset = ( (screen_width-15*scale)/2, (screen_height-15*math.sqrt(3)*scale)/2 )
+
+    axialpos = axial.axial_round(axial.screen_to_axial(numpy.subtract(mousepos, peter_offset), scale))
+    pos = numpy.add(axial.axial_to_screen(axialpos, scale), peter_offset)
     g.draw_hex(surface, pos, scale, (230, 230, 240), 4)
     pygame.draw.circle(surface, (255, 255, 255), pos, scale/3)
     g.draw_piece(surface, spritesheet, pos, scale, "knight", "white")
-    g.draw_piece(surface, spritesheet, numpy.add(axial.axial_to_screen((1, 0), scale), origin), scale, "queen", "white")
-    g.draw_piece(surface, spritesheet, numpy.add(axial.axial_to_screen((2, 0), scale), origin), scale, "rook", "white")
-    g.draw_piece(surface, spritesheet, numpy.add(axial.axial_to_screen((1, 1), scale), origin), scale, "bishop", "black")
-    g.draw_piece(surface, spritesheet, numpy.add(axial.axial_to_screen((2, 1), scale), origin), scale, "king", "black")
+    g.draw_piece(surface, spritesheet, numpy.add(axial.axial_to_screen((1, 0), scale), peter_offset), scale, "queen", "white")
+    g.draw_piece(surface, spritesheet, numpy.add(axial.axial_to_screen((2, 0), scale), peter_offset), scale, "rook", "white")
+    g.draw_piece(surface, spritesheet, numpy.add(axial.axial_to_screen((1, 1), scale), peter_offset), scale, "bishop", "black")
+    g.draw_piece(surface, spritesheet, numpy.add(axial.axial_to_screen((2, 1), scale), peter_offset), scale, "king", "black")
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT: sys.exit()
         # if event.type == pygame.MOUSEBUTTONDOWN:            
 
     
-    img = font.render("hovering: " + str(numpy.add((axialpos[1], axialpos[0]), (5, 5))), True, (1,1,1))
+    img = font.render("hovering: " + str(axialpos), True, (1,1,1))
     surface.blit(img, (20, 20))
 
 
