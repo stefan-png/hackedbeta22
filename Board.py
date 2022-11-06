@@ -40,7 +40,7 @@ def set_Up_Board(mode="glinski"): # creates board and peices for the starting po
         # black queen
         output[1, 4] = peices(QUEEN, BLACK)
         # black king
-        output[0, 6] = peices(WHITE, BLACK)
+        output[0, 6] = peices(KING, BLACK)
         # black knights
         output[2, 3] = peices(KNIGHT, BLACK)
         output[0, 7] = peices(KNIGHT, BLACK)

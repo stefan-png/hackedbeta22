@@ -2,7 +2,7 @@ import sys, pygame, math
 import numpy
 
 import axial, graphics as g
-import Movment
+import Evaluation
 from Board import *
 
 screen_width = 800
@@ -12,7 +12,7 @@ origin = (screen_width/2, screen_height/2)
 # setup board
 grid = set_Up_Board()
 turn = WHITE
-
+print(Evaluation.check_If_Valid(grid, (4,4), (10,4)))
 if __name__=="__main__":
 
     pygame.init()
@@ -114,8 +114,7 @@ if __name__=="__main__":
         # draw all possible moves for selected piece
         if selected_tile != 0 and grid[selected_tile[1], selected_tile[0]] not in [0, 1]:
             # draw dot on each possible move
-            for move in Movment.possible_moves(grid, (selected_tile[1], selected_tile[0])):
-                print(move[1], move[0])
+            for move in Evaluation.possible_moves(grid, (selected_tile[1], selected_tile[0])):
                 pygame.draw.circle(surface, (200, 200, 200), numpy.add(axial.axial_to_screen((move[1], move[0]), scale), peter_offset), scale/3)
 
 
