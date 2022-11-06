@@ -1,7 +1,8 @@
 import sys, pygame, math
 import numpy
 
-import axial, graphics as g, Movment
+import axial, graphics as g
+import Movment
 from Board import *
 
 screen_width = 800
@@ -21,7 +22,7 @@ if __name__=="__main__":
     font = pygame.font.SysFont(None, 24)
 
     #piece currently held by player's cursor
-    held_piece = peices(NONE, WHITE)
+    held_piece = 0
     held_peice_last_pos = (0, 0)
 
     selected_tile = NONE
@@ -49,11 +50,11 @@ if __name__=="__main__":
                 sys.exit()
             if event.type == pygame.MOUSEBUTTONDOWN: 
 
-                if not (picked_pos[0] >= 0 and picked_pos[0] < 11 and picked_pos[0] >= 0 and picked_pos[1] < 11):
+                if not (picked_pos[0] >= 0 and picked_pos[0] < 11 and picked_pos[1] >= 0 and picked_pos[1] < 11):
                     continue
 
-                
                 if grid[picked_pos[1], picked_pos[0]] == 0:
+                    # picked a blank square
                     # TODO change to check for valid move
                     if selected_tile != 0:
                         # try to snap to picked pos
@@ -61,12 +62,14 @@ if __name__=="__main__":
                         grid[picked_pos[1], picked_pos[0]] = grid[selected_tile[1], selected_tile[0]]
                         grid[selected_tile[1], selected_tile[0]] = 0
                         selected_tile = 0
-                        # make sure to reset any hold variables
-                        held_piece = 0
-                        held_peice_last_pos = (0, 0)
+                        
                     else:
                         # didn't have any point selected, select this square
                         selected_tile = picked_pos
+
+                    # make sure to reset any hold variables
+                    held_piece = 0
+                    held_peice_last_pos = 0
 
                 elif grid[picked_pos[1], picked_pos[0]] not in [0, 1]:
                     # picked a piece
@@ -79,7 +82,10 @@ if __name__=="__main__":
             if event.type == pygame.MOUSEBUTTONUP or event.type == pygame.WINDOWLEAVE:            
                 #check if on board
                 
-                if picked_pos[0] >= 0 and picked_pos[0] < 11 and picked_pos[0] >= 0 and picked_pos[1] < 11 and grid[picked_pos[1], picked_pos[0]] == 0:
+                if held_peice_last_pos == 0:
+                    continue
+
+                if picked_pos[0] >= 0 and picked_pos[0] < 11 and picked_pos[1] >= 0 and picked_pos[1] < 11 and grid[picked_pos[1], picked_pos[0]] == 0:
 
                     # dragged to valid tile, move the piece
                     grid[picked_pos[1], picked_pos[0]] = held_piece
@@ -93,7 +99,7 @@ if __name__=="__main__":
                     selected_tile = 0
 
                 held_piece = 0
-                held_peice_last_pos = (0, 0)
+                held_peice_last_pos = 0
 
 
         # highlight whichever tile is selected
@@ -106,9 +112,9 @@ if __name__=="__main__":
             g.draw_piece(surface, spritesheet, mousepos, scale, held_piece.type, held_piece.colour)
 
         # draw all possible moves for selected piece
-        if selected_tile != 0:
+        if selected_tile != 0 and grid[selected_tile[1], selected_tile[0]] not in [0, 1]:
             # draw dot on each possible move
-            for move in Movment.possible_moves((selected_tile[1], selected_tile[0])):
+            for move in Movment.possible_moves(grid, (selected_tile[1], selected_tile[0])):
                 print(move[1], move[0])
                 pygame.draw.circle(surface, (200, 200, 200), numpy.add(axial.axial_to_screen((move[1], move[0]), scale), peter_offset), scale/3)
 
