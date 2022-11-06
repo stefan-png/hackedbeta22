@@ -80,6 +80,10 @@ def knight(pos): # returns list of all possible knight moves
     disp(pos, moves)
     return moves
 
+def pawn(pos):
+    moves = []
+    return moves
+
 def queen(pos): # retunrs list of all possible queen moves
     moves = rook(pos) + bishop(pos)
     disp(pos,moves)
@@ -98,4 +102,18 @@ def disp(pos, moves): # diplays the possible moves on a terminal grid
 
     print(grid)
 
-queen(np.array([10,4]))
+def possible_moves(pos):
+    if grid[pos].type == ROOK:
+        rook(np.array(pos))
+    elif grid[pos].type == BISHOP:
+        bishop(np.array(pos))
+    elif grid[pos].type == PAWN:
+        pawn(np.array(pos))
+    elif grid[pos].type == KING:
+        king(np.array(pos))
+    elif grid[pos].type == QUEEN:
+        queen(np.array(pos))
+    elif grid[pos].type == KNIGHT:
+        knight(np.array(pos))
+    else:
+        print('error')
