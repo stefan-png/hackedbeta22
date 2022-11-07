@@ -7,7 +7,7 @@ from pygametest import *
 
 def set_Up_Board(mode="glinski"): # creates board and peices for the starting position of the game
     #creates the a hexagonal 2 dimensional grid o fhte board
-    output = np.ones(shape=(11, 11), dtype=object)
+    output = np.ones(shape=(20, 20), dtype=object)
     for q in range(0, 11):
         for r in range(0, 11):
             if q + r >= 5 and q + r <= 15:
@@ -81,7 +81,7 @@ def set_Up_Board(mode="glinski"): # creates board and peices for the starting po
         return grid_Maker(output)
     return output
 
-def grid_Maker(output):
+def grid_Maker(output): # creates mock game to set up board then returns board
     screen_width = 800
     screen_height = 800
     origin = (screen_width/2, screen_height/2)
@@ -115,6 +115,7 @@ def grid_Maker(output):
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
+                # before quiting, returns grid without the peices outside of the board
                 for q in range(0, 11):
                     for r in range(0, 11):
                         if (q + r < 5 or q + r > 15):
@@ -123,6 +124,7 @@ def grid_Maker(output):
                 sys.exit()
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if not Eval.check_on_board(flipxy(picked_pos)) and grid[flipxy(picked_pos)] in [0, 1]:
+                    # we have selected a tile outside board that dosnt have a peice
                     selected_tile = 0
                 elif selected_tile == 0 or grid[flipxy(selected_tile)] == 0:
                     # we havent selected a tile yet, select one
@@ -131,10 +133,12 @@ def grid_Maker(output):
                     # we picked the same as is selected
                     selected_tile = 0
                 elif not Eval.check_on_board(flipxy(selected_tile)):
+                    # we have selected a tile outside the board that does have a peice
                     print(selected_tile)
                     grid[picked_pos[1], picked_pos[0]] = grid[selected_tile[1], selected_tile[0]]
                     selected_tile = 0
                 else:
+                    # on the board, no change
                     grid[picked_pos[1], picked_pos[0]] = grid[selected_tile[1], selected_tile[0]]
                     grid[selected_tile[1], selected_tile[0]] = 0
                     selected_tile = 0

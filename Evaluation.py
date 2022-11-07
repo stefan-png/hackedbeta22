@@ -88,7 +88,7 @@ def king_position(grid, colour):
                 if get_piece_type_at(grid, (q, r)) == KING and grid[q,r].colour == colour:
                     return (q,r)
 
-    # TODO this is nonesense??
+    # TODO this is nonesense?? <fuck you its perfect>
     return (0, 0)
 
 # checks if moving from pos_start to pos_c will put you in check
@@ -234,7 +234,12 @@ def rook(grid, pos, c=0): # returns list of all possible rook moves
             else:
                 moves.append(pos)
 
-        disp(pos, moves)
+        i = 0
+        while i < len(moves):
+            if moves[i][1] == pos[1] and moves[i][0] == pos[0]:
+                moves.pop(i)
+            else:
+                i = i + 1
         return moves
 
 def bishop(grid, pos, c=0): # returns list of all possible bishop moves
@@ -325,11 +330,16 @@ def bishop(grid, pos, c=0): # returns list of all possible bishop moves
             moves.append(pos)
 
     disp(pos, moves)
-
+    i = 0
+    while i < len(moves):
+        if moves[i][1] == pos[1] and moves[i][0] == pos[0]:
+            moves.pop(i)
+        else:
+            i = i + 1
     return moves
 
 def knight(grid, pos, c=0): # returns list of all possible knight moves
-    moves = [pos]
+    moves = []
     m = [(1,-3),(-1,-2),(-2,-1),(-3,1),(-3,2),(-2,3),(-1,3),(1,2),(2,1),(3,-1),(3,-2),(2,-3)]
     for i in m:
         if c == 0:
@@ -463,9 +473,11 @@ def check_Mate(grid, colour): #wip
             if grid[q, r] not in [0, 1]:
                 if grid[q,r].colour == colour:
                     moves = moves + possible_moves(grid, (q,r))
-
-    print(moves_WHITE)
-    print(moves_BLACK)
+    print(moves)
+    if len(moves) == 0:
+        return True
+    else:
+        return False
 
 
 

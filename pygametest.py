@@ -38,9 +38,9 @@ if __name__=="__main__":
     captured_white_pieces = numpy.zeros(7)
     captured_black_pieces = numpy.zeros(7)
 
-    print('glinski, blank, debug')
     # game loop
     while True:
+        Eval.check_Mate(grid, WHITE)
         # state
         scale = 35
 
