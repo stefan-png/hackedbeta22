@@ -17,10 +17,6 @@ screen_width = 800
 screen_height = 800
 origin = (screen_width/2, screen_height/2)
 
-# setup board
-grid = set_Up_Board()
-turn = WHITE
-print(Eval.check_If_Valid(grid, (4,4), (10,4)))
 if __name__=="__main__":
 
     pygame.init()
@@ -30,7 +26,11 @@ if __name__=="__main__":
     spritesheet = g.load_spritesheet("chesspieces.png")
     font = pygame.font.SysFont(None, 24)
 
-    #piece currently held by player's cursor
+    # setup board
+    grid = set_Up_Board()
+    turn = WHITE
+
+    #piece currently held by player's cursor (NOT USED)
     held_piece = 0
     held_peice_last_pos = (0, 0)
 
@@ -58,9 +58,9 @@ if __name__=="__main__":
         g.draw_hex(surface, pos, scale, (230, 230, 240), 4)
 
         for event in pygame.event.get():
-            if event.type == pygame.QUIT: 
+            if event.type == pygame.QUIT:
                 sys.exit()
-            if event.type == pygame.MOUSEBUTTONDOWN: 
+            if event.type == pygame.MOUSEBUTTONDOWN:
                 # make sure the picked_pos is on the board
                 if not Eval.check_on_board(flipxy(picked_pos)):
                     selected_tile = 0
@@ -73,38 +73,78 @@ if __name__=="__main__":
                     # we picked the same as is selected
                     selected_tile = 0
                 elif check_if_possible_move(grid, flipxy(selected_tile), flipxy(picked_pos)) and grid[flipxy(selected_tile)].colour == turn:
-                    
+
                     # we picked a different tile than is selected
                     # if its a valid move, make the move
 
-                    # TODO if we are going to eat an enemy piece, move it to the side.
                     piece_idx = NONE
                     if grid[flipxy(picked_pos)] not in [0, 1]:
                         piece_idx = grid[flipxy(picked_pos)].type
                     if turn == WHITE:
                         turn = BLACK
                         captured_black_pieces[piece_idx] += 1
-                        print("taken black pieces", captured_black_pieces)
                     else:
                         turn = WHITE
                         captured_white_pieces[piece_idx] += 1
-                        print("taken white pieces", captured_white_pieces)
 
                     grid[picked_pos[1], picked_pos[0]] = grid[selected_tile[1], selected_tile[0]]
                     grid[selected_tile[1], selected_tile[0]] = 0
                     selected_tile = 0
+
+                    # just ate a piece. check if its now checkmate
+                    # TODO: DOESN'T WORK!! possible moves also contains the move staying in the same spot! so it will never be zero!
+                    """
+                    # loop through each enemy piece and find its possible moves
+                    player_possible_moves = []
+                    enemy_possible_moves = []
+                    king_pos = (-1, -1)
+                    for q in range(0, 11):
+                        for r in range(0, 11):
+                            if Eval.get_piece_type_at(grid, (q,r)) == NONE:
+                                continue
+                            if grid[q,r].colour == turn:
+                                player_possible_moves += Eval.possible_moves(grid, (q,r), c=1)
+                                if grid[q, r].type == KING:
+                                    king_pos = (q, r)
+                            else:
+                                enemy_possible_moves += Eval.possible_moves(grid, (q,r), c=1)
+
+
+                    if len(player_possible_moves) != 0:
+                        continue
+                    # player has no moves. If their king is in check, its checkmate. If not, stalemate.
+                    # check if any of the enemy moves can capture the king
+                    checkmate = False
+                    for move in enemy_possible_moves:
+                        if tuple(move) == tuple(king_pos):
+                            checkmate = True
+
+                    if checkmate:
+                        # reset the game
+                        grid = set_Up_Board()
+                        turn = WHITE
+
+                        #piece currently held by player's cursor (NOT USED)
+                        held_piece = 0
+                        held_peice_last_pos = (0, 0)
+
+                        selected_tile = NONE
+
+                        captured_white_pieces = numpy.zeros(7)
+                        captured_black_pieces = numpy.zeros(7)
+                    """
                 else:
                     # otherwise, its an invalid move, select the picked tile
                     selected_tile = picked_pos
 
-            if event.type == pygame.MOUSEBUTTONUP or event.type == pygame.WINDOWLEAVE:            
+            if event.type == pygame.MOUSEBUTTONUP or event.type == pygame.WINDOWLEAVE:
                 #check if on board
                 # if user released mouse on selected tile, unselect it and do nothing else
                 if held_peice_last_pos == 0:
                     continue
 
-                # if user released mouse 
-        
+                # if user released mouse
+
         # *** end event handling ***
 
         # highlight whichever tile is selected
@@ -150,9 +190,9 @@ if __name__=="__main__":
             for piece in range(int(captured_black_pieces[i])):
                 g.draw_piece(surface, spritesheet, (origin[0]+9.5 * scale, origin[1]-7.5*scale + blacky * scale), scale, i, BLACK)
                 blacky += 1
-            
 
 
-        # do the transparent stuff maybe 
-        screen.blit(surface, (0, 0)) 
+
+        # do the transparent stuff maybe
+        screen.blit(surface, (0, 0))
         pygame.display.flip()

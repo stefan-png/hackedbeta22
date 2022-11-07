@@ -1,4 +1,3 @@
-from enum import Enum
 NONE = 0
 PAWN = 1
 BISHOP = 2
