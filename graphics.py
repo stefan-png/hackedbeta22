@@ -57,10 +57,7 @@ def load_spritesheet(filename):
 def image_at(spritesheet, rectangle):
         """Load a specific image from a specific rectangle."""
         # Loads image from x, y, x+offset, y+offset.
-        rect = pygame.Rect(rectangle)
-        image = pygame.Surface(rect.size).convert_alpha()
-        image.blit(spritesheet, (0, 0), rect)
-        return image
+        return spritesheet.subsurface(rectangle)
 
 # surface to draw on
 # image to draw

@@ -19,12 +19,13 @@ origin = (screen_width/2, screen_height/2)
 
 # setup board
 grid = set_Up_Board()
-turn = BLACK # WHITE
+turn = WHITE
 print(Eval.check_If_Valid(grid, (4,4), (10,4)))
 if __name__=="__main__":
 
     pygame.init()
-    surface = pygame.display.set_mode((screen_width, screen_height))
+    screen = pygame.display.set_mode((screen_width, screen_height), pygame.DOUBLEBUF, 32)
+    surface = pygame.Surface((screen_width, screen_height), pygame.SRCALPHA, 32)
 
     spritesheet = g.load_spritesheet("chesspieces.png")
     font = pygame.font.SysFont(None, 24)
@@ -153,4 +154,5 @@ if __name__=="__main__":
 
 
         # do the transparent stuff maybe 
+        screen.blit(surface, (0, 0)) 
         pygame.display.flip()
