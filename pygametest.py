@@ -18,7 +18,6 @@ screen_height = 800
 origin = (screen_width/2, screen_height/2)
 
 if __name__=="__main__":
-
     pygame.init()
     screen = pygame.display.set_mode((screen_width, screen_height), pygame.DOUBLEBUF, 32)
     surface = pygame.Surface((screen_width, screen_height), pygame.SRCALPHA, 32)
@@ -27,7 +26,7 @@ if __name__=="__main__":
     font = pygame.font.SysFont(None, 24)
 
     # setup board
-    grid = set_Up_Board()
+    grid = set_Up_Board('custom')
     turn = WHITE
 
     #piece currently held by player's cursor (NOT USED)
@@ -39,9 +38,9 @@ if __name__=="__main__":
     captured_white_pieces = numpy.zeros(7)
     captured_black_pieces = numpy.zeros(7)
 
+    print('glinski, blank, debug')
     # game loop
     while True:
-
         # state
         scale = 35
 

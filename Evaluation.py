@@ -456,3 +456,18 @@ def possible_moves(grid, pos, c=0):
         print('error in possible moves, invalid type')
         return []
 
+def check_Mate(grid, colour): #wip
+    moves = []
+    for q in range(0, 11):
+        for r in range(0, 11):
+            if grid[q, r] not in [0, 1]:
+                if grid[q,r].colour == colour:
+                    moves = moves + possible_moves(grid, (q,r))
+
+    print(moves_WHITE)
+    print(moves_BLACK)
+
+
+
+
+
