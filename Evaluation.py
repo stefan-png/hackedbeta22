@@ -38,7 +38,6 @@ No_Piece_Selcted = 0
 Not_On_Board = 1
 Same_Square = 2
 Attacking_Same_Colour = 3
-In_Check_Attacking = 4
 Attacking = 5
 Blank_Square = 6
 
@@ -65,10 +64,6 @@ def check_If_Valid(grid, np_pos,np_pos_start):
             # if try to move onto own piece
             return (False, Attacking_Same_Colour)
         else:
-             #if try to attack other piece
-            #if in_Check(grid, pos, pos_start):
-                #return (False, In_Check_Attacking)
-            #else:
             return (True, Attacking)
 
     # otherwise, tried to move onto some blank square
@@ -137,7 +132,7 @@ def king(grid, pos, c=0): # returns list of all possible king moves
 def rook(grid, pos, c=0): # returns list possible rook moves
         moves = [pos]
         # moves in the positive y
-        while check_If_Valid(grid, moves[-1], pos)[1]  in (Blank_Square,In_Checkp,Same_Square):
+        while check_If_Valid(grid, moves[-1], pos)[1]  in (Blank_Square, Same_Square):
             move = np.add(moves[-1], (0,1))
             moves.append(move)
         if check_If_Valid(grid, moves[-1], pos)[1] != Attacking:
@@ -145,7 +140,7 @@ def rook(grid, pos, c=0): # returns list possible rook moves
         else:
             moves.append(pos)
         #moves in the negative y
-        while check_If_Valid(grid, moves[-1], pos)[1]  in (Blank_Square,In_Checkp,Same_Square):
+        while check_If_Valid(grid, moves[-1], pos)[1]  in (Blank_Square, Same_Square):
             move = np.subtract(moves[-1], (0, 1))
             moves.append(move)
         if check_If_Valid(grid, moves[-1], pos)[1] != Attacking:
@@ -153,30 +148,30 @@ def rook(grid, pos, c=0): # returns list possible rook moves
         else:
             moves.append(pos)
         #moves in the postiive x
-        while check_If_Valid(grid, moves[-1], pos)[1]  in (Blank_Square,In_Checkp,Same_Square):
+        while check_If_Valid(grid, moves[-1], pos)[1]  in (Blank_Square, Same_Square):
             moves.append(np.add(moves[-1], (1,0)))
-        if check_If_Valid(grid, moves[-1], pos)[1] not in (Attacking, In_Check_Attacking):
+        if check_If_Valid(grid, moves[-1], pos)[1] != Attacking:
             moves[-1] = pos
         else:
             moves.append(pos)
         #moves in the negative x
-        while check_If_Valid(grid, moves[-1], pos)[1]  in (Blank_Square,In_Checkp,Same_Square):
+        while check_If_Valid(grid, moves[-1], pos)[1]  in (Blank_Square, Same_Square):
             moves.append(np.subtract(moves[-1], (1,0)))
-        if check_If_Valid(grid, moves[-1], pos)[1] not in (Attacking, In_Check_Attacking):
+        if check_If_Valid(grid, moves[-1], pos)[1] != Attacking:
             moves[-1] = pos
         else:
             moves.append(pos)
         #moves in the positive z
-        while check_If_Valid(grid, moves[-1], pos)[1]  in (Blank_Square,In_Checkp,Same_Square):
+        while check_If_Valid(grid, moves[-1], pos)[1]  in (Blank_Square, Same_Square):
             moves.append(np.add(moves[-1], (-1, 1)))
-        if check_If_Valid(grid, moves[-1], pos)[1] not in (Attacking, In_Check_Attacking):
+        if check_If_Valid(grid, moves[-1], pos)[1] != Attacking:
             moves[-1] = pos
         else:
             moves.append(pos)
         #moves in the negative y
-        while check_If_Valid(grid, moves[-1], pos)[1]  in (Blank_Square,In_Checkp,Same_Square):
+        while check_If_Valid(grid, moves[-1], pos)[1]  in (Blank_Square, Same_Square):
             moves.append(np.subtract(moves[-1], (-1, 1)))
-        if check_If_Valid(grid, moves[-1], pos)[1] not in (Attacking, In_Check_Attacking):
+        if check_If_Valid(grid, moves[-1], pos)[1] != Attacking:
             moves[-1] = pos
         else:
             moves.append(pos)
@@ -185,44 +180,44 @@ def rook(grid, pos, c=0): # returns list possible rook moves
 
 def bishop(grid, pos, c=0): # returns list of all possible bishop moves
     moves = [pos]
-    while check_If_Valid(grid, moves[-1], pos)[1] in (Blank_Square,In_Checkp,Same_Square):
+    while check_If_Valid(grid, moves[-1], pos)[1] in (Blank_Square,Same_Square):
         moves.append(np.add(moves[-1], (1,1)))
-    if check_If_Valid(grid, moves[-1], pos)[1] not in (Attacking, In_Check_Attacking):
+    if check_If_Valid(grid, moves[-1], pos)[1] != Attacking:
         moves[-1] = pos
     else:
         moves.append(pos)
 
-    while check_If_Valid(grid, moves[-1], pos)[1] in (Blank_Square,In_Checkp,Same_Square):
+    while check_If_Valid(grid, moves[-1], pos)[1] in (Blank_Square,Same_Square):
         moves.append(np.subtract(moves[-1], (1,1)))
-    if check_If_Valid(grid, moves[-1], pos)[1] not in (Attacking, In_Check_Attacking):
+    if check_If_Valid(grid, moves[-1], pos)[1] != Attacking:
         moves[-1] = pos
     else:
         moves.append(pos)
 
-    while check_If_Valid(grid, moves[-1], pos)[1]  in (Blank_Square,In_Checkp,Same_Square):
+    while check_If_Valid(grid, moves[-1], pos)[1]  in (Blank_Square,Same_Square):
         moves.append(np.add(moves[-1], (1,-2)))
-    if check_If_Valid(grid, moves[-1], pos)[1] not in (Attacking, In_Check_Attacking):
+    if check_If_Valid(grid, moves[-1], pos)[1] != Attacking:
         moves[-1] = pos
     else:
         moves.append(pos)
 
-    while check_If_Valid(grid, moves[-1], pos)[1]  in (Blank_Square,In_Checkp,Same_Square):
+    while check_If_Valid(grid, moves[-1], pos)[1]  in (Blank_Square,Same_Square):
         moves.append(np.subtract(moves[-1], (1,-2)))
-    if check_If_Valid(grid, moves[-1], pos)[1] not in (Attacking, In_Check_Attacking):
+    if check_If_Valid(grid, moves[-1], pos)[1] != Attacking:
         moves[-1] = pos
     else:
         moves.append(pos)
 
-    while check_If_Valid(grid, moves[-1], pos)[1]  in (Blank_Square,In_Checkp,Same_Square):
+    while check_If_Valid(grid, moves[-1], pos)[1]  in (Blank_Square,Same_Square):
         moves.append(np.add(moves[-1], (2,-1)))
-    if check_If_Valid(grid, moves[-1], pos)[1] not in (Attacking, In_Check_Attacking):
+    if check_If_Valid(grid, moves[-1], pos)[1] != Attacking:
         moves[-1] = pos
     else:
         moves.append(pos)
 
-    while check_If_Valid(grid, moves[-1], pos)[1]  in (Blank_Square,In_Checkp,Same_Square):
+    while check_If_Valid(grid, moves[-1], pos)[1]  in (Blank_Square,Same_Square):
         moves.append(np.subtract(moves[-1], (2,-1)))
-    if check_If_Valid(grid, moves[-1], pos)[1] not in (Attacking, In_Check_Attacking):
+    if check_If_Valid(grid, moves[-1], pos)[1] != Attacking:
         moves[-1] = pos
     else:
         moves.append(pos)

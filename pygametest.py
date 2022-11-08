@@ -29,6 +29,7 @@ if __name__=="__main__":
     GLINSKI = 0
     CUSTOM = 1
     BLANK = 2
+    MCCOONY = 4
 
     grid = set_Up_Board(CUSTOM)
     r_grid = set_Up_Board(BLANK)

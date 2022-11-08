@@ -85,6 +85,53 @@ def set_Up_Board(mode=0, Winner=None): # creates board and peices for the starti
             for r in range(0, 11):
                 if q + r >= 5 and q + r <= 15:
                     output[q,r] = output[10, 5] = peices(KING, Winner)
+    if mode == 4: #mcCoony
+        # white bishops
+        output[10, 5] = peices(BISHOP, WHITE)
+        output[9, 5] = peices(BISHOP, WHITE)
+        output[8, 5] = peices(BISHOP, WHITE)
+        #white pawns
+        output[10,2] = peices(PAWN, WHITE)
+        output[9,3] = peices(PAWN, WHITE)
+        output[8,4] = peices(PAWN, WHITE)
+        output[7,5] = peices(PAWN, WHITE)
+        output[7,6] = peices(PAWN, WHITE)
+        output[7,7] = peices(PAWN, WHITE)
+        output[7,8] = peices(PAWN, WHITE)
+        # white queen
+        output[10, 4] = peices(QUEEN, WHITE)
+        # white king
+        output[9, 6] = peices(KING, WHITE)
+
+        output[10,3] = peices(ROOK, WHITE)
+        output[8, 7] = peices(ROOK, WHITE)
+
+        output[9,4] = peices(KNIGHT, WHITE)
+        output[8,6] = peices(KNIGHT, WHITE)
+
+        output[0, 5] = peices(BISHOP, BLACK)
+        output[1, 5] = peices(BISHOP, BLACK)
+        output[2, 5] = peices(BISHOP, BLACK)
+        # white pawns
+        output[3, 2] = peices(PAWN, BLACK)
+        output[3, 3] = peices(PAWN, BLACK)
+        output[3, 4] = peices(PAWN, BLACK)
+        output[3, 5] = peices(PAWN, BLACK)
+        output[2,6] = peices(PAWN, BLACK)
+        output[1,7] = peices(PAWN, BLACK)
+        output[0,8] = peices(PAWN, BLACK)
+        # white queen
+        output[1, 4] = peices(QUEEN, BLACK)
+        # white king
+        output[0, 6] = peices(KING, BLACK)
+
+        output[2,3] = peices(ROOK, BLACK)
+        output[0, 7] = peices(ROOK, BLACK)
+
+        output[2, 4] = peices(KNIGHT, BLACK)
+        output[1, 6] = peices(KNIGHT, BLACK)
+
+
 
     return output
 
