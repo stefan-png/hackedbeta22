@@ -8,7 +8,7 @@ def flipxy(tuple):
     return (tuple[1], tuple[0])
 
 def check_if_possible_move(grid, startpos, endpos):
-    for move in Eval.possible_moves(grid, startpos):
+    for move in Eval.possible_moves(grid, startpos, r_grid = r_grid):
         if tuple(move) == endpos:
             return True
     return False
@@ -26,7 +26,15 @@ if __name__=="__main__":
     font = pygame.font.SysFont(None, 24)
 
     # setup board
-    grid = set_Up_Board('glinski')
+    GLINSKI = 0
+    CUSTOM = 1
+    BLANK = 2
+
+    grid = set_Up_Board(CUSTOM)
+    r_grid = set_Up_Board(BLANK)
+    for q in range(0, 11):
+        for r in range(0, 11):
+            r_grid[q,r] = grid[q,r]
     turn = WHITE
 
     #piece currently held by player's cursor (NOT USED)
@@ -91,35 +99,14 @@ if __name__=="__main__":
 
                     # just ate a piece. check if its now checkmate
                     # TODO: DOESN'T WORK!! possible moves also contains the move staying in the same spot! so it will never be zero!
-                    """
-                    # loop through each enemy piece and find its possible moves
-                    player_possible_moves = []
-                    enemy_possible_moves = []
-                    king_pos = (-1, -1)
-                    for q in range(0, 11):
-                        for r in range(0, 11):
-                            if Eval.get_piece_type_at(grid, (q,r)) == NONE:
-                                continue
-                            if grid[q,r].colour == turn:
-                                player_possible_moves += Eval.possible_moves(grid, (q,r), c=1)
-                                if grid[q, r].type == KING:
-                                    king_pos = (q, r)
-                            else:
-                                enemy_possible_moves += Eval.possible_moves(grid, (q,r), c=1)
 
-
-                    if len(player_possible_moves) != 0:
-                        continue
-                    # player has no moves. If their king is in check, its checkmate. If not, stalemate.
-                    # check if any of the enemy moves can capture the king
-                    checkmate = False
-                    for move in enemy_possible_moves:
-                        if tuple(move) == tuple(king_pos):
-                            checkmate = True
-
-                    if checkmate:
+                    if Eval.check_Mate(grid, turn):
                         # reset the game
-                        grid = set_Up_Board()
+                        if turn == BLACK:
+                            Winner = WHITE
+                        else:
+                            Winner = BLACK
+                        grid = set_Up_Board(3,Winner)
                         turn = WHITE
 
                         #piece currently held by player's cursor (NOT USED)
@@ -130,7 +117,7 @@ if __name__=="__main__":
 
                         captured_white_pieces = numpy.zeros(7)
                         captured_black_pieces = numpy.zeros(7)
-                    """
+
                 else:
                     # otherwise, its an invalid move, select the picked tile
                     selected_tile = picked_pos
@@ -157,7 +144,7 @@ if __name__=="__main__":
         # draw all possible moves for selected piece
         if selected_tile != 0 and grid[selected_tile[1], selected_tile[0]] not in [0, 1] and grid[flipxy(selected_tile)].colour == turn:
             # draw dot on each possible move
-            for move in Eval.possible_moves(grid, (selected_tile[1], selected_tile[0])):
+            for move in Eval.possible_moves(grid, (selected_tile[1], selected_tile[0]), r_grid= r_grid):
                 pygame.draw.circle(surface, g.get_hex_colour(move[1], move[0]+2), numpy.add(axial.axial_to_screen((move[1], move[0]), scale), peter_offset), scale*g.SQRT32/2)
 
         # draw debug text

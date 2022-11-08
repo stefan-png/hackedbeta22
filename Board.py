@@ -5,7 +5,7 @@ import axial, graphics as g
 import Evaluation as Eval
 from pygametest import *
 
-def set_Up_Board(mode="glinski"): # creates board and peices for the starting position of the game
+def set_Up_Board(mode=0, Winner=None): # creates board and peices for the starting position of the game
     #creates the a hexagonal 2 dimensional grid o fhte board
     output = np.ones(shape=(20, 20), dtype=object)
     for q in range(0, 11):
@@ -13,10 +13,11 @@ def set_Up_Board(mode="glinski"): # creates board and peices for the starting po
             if q + r >= 5 and q + r <= 15:
                 output[q, r] = 0
 
-    if mode== 'blank':
-        return output    
+    if mode== 2:
+        ref = 2
+        return output
 
-    if mode == 'glinski': #glinski's set up of the board
+    if mode == 0: #glinski's set up of the board
         # white bishops
         output[10,5] = peices(BISHOP, WHITE)
         output[9,5] = peices(BISHOP, WHITE)
@@ -65,7 +66,7 @@ def set_Up_Board(mode="glinski"): # creates board and peices for the starting po
         output[2, 7] = peices(PAWN, BLACK)
         output[1, 8] = peices(PAWN, BLACK)
         output[0, 9] = peices(PAWN, BLACK)
-    if mode == 'custom':
+    if mode == 1:
         output[4,0] = peices(PAWN, BLACK)
         output[3, 1] = peices(ROOK, BLACK)
         output[2, 2] = peices(KNIGHT, BLACK)
@@ -79,6 +80,12 @@ def set_Up_Board(mode="glinski"): # creates board and peices for the starting po
         output[10, 6] = peices(QUEEN, WHITE)
         output[10, 5] = peices(KING, WHITE)
         return grid_Maker(output)
+    if mode == 3:
+        for q in range(0, 11):
+            for r in range(0, 11):
+                if q + r >= 5 and q + r <= 15:
+                    output[q,r] = output[10, 5] = peices(KING, Winner)
+
     return output
 
 def grid_Maker(output): # creates mock game to set up board then returns board
