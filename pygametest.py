@@ -26,7 +26,7 @@ if __name__=="__main__":
     font = pygame.font.SysFont(None, 24)
 
     # setup board
-    grid = set_Up_Board('custom')
+    grid = set_Up_Board('glinski')
     turn = WHITE
 
     #piece currently held by player's cursor (NOT USED)
@@ -40,7 +40,6 @@ if __name__=="__main__":
 
     # game loop
     while True:
-        Eval.check_Mate(grid, WHITE)
         # state
         scale = 35
 

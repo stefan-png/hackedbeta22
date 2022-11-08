@@ -1,6 +1,11 @@
+list1 = [[1,2],[3,3],[5,7]]
+list2 = [[1,2],[3,3],[5,5],[1,2],[4,66]]
+i=0
 
-L1 =[1,2,3,4,5]
-L2 = [6,7,8,9,10]
+for i in list1:
+     while i in list2:
+        list2.remove(i)
 
-L1 = L1 + L2
-print(L1)
+
+
+print(list2)
