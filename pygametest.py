@@ -96,7 +96,10 @@ if __name__=="__main__":
                     grid[picked_pos[1], picked_pos[0]] = grid[selected_tile[1], selected_tile[0]]
                     grid[selected_tile[1], selected_tile[0]] = 0
                     selected_tile = 0
-
+                    if turn == WHITE:
+                        Eval.promotable_Pawns(grid, BLACK)
+                    else:
+                        Eval.promotable_Pawns(grid, WHITE)
                     # just ate a piece. check if its now checkmate
                     # TODO: DOESN'T WORK!! possible moves also contains the move staying in the same spot! so it will never be zero!
 

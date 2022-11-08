@@ -310,6 +310,21 @@ def check_Mate(grid, colour): #wip
     else:
         return False
 
+def promotable_Pawns(grid, colour):
+    if colour == WHITE:
+        print('white')
+        m = [(5,0),(4,1),(3,2),(2,3),(1,4),(0,5),(0,6),(0,7),(0,8),(0,9),(0,10)]
+        for i in m:
+            if get_piece_type_at(grid, i) == PAWN:
+                if grid[i].colour == WHITE:
+                    grid[i] = peices(QUEEN, WHITE)
+    else:
+        m = [(10,0),(10,1),(10,2),(10,3),(10,4),(10,5),(9,6),(8,7),(7,8),(6,9),(7,10)]
+        for i in m:
+            if get_piece_type_at(grid, i) == PAWN:
+                if grid[i].colour == BLACK:
+                    grid[i] = peices(QUEEN, BLACK)
+
 
 
 
