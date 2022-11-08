@@ -1,6 +1,7 @@
 import numpy as np
 from Board import *
 def bandaid(grid,moves,pos,c):
+    # this prunes the moves output of our movments functionsto account for check convert coords into lists and remove origional position
     a = 0
     for i in moves:
         moves[a] = [i[0], i[1]]
@@ -39,8 +40,7 @@ Same_Square = 2
 Attacking_Same_Colour = 3
 In_Check_Attacking = 4
 Attacking = 5
-In_Checkp = 6
-Blank_Square = 7
+Blank_Square = 6
 
 # checks if some move is valid
 def check_If_Valid(grid, np_pos,np_pos_start):
@@ -48,18 +48,17 @@ def check_If_Valid(grid, np_pos,np_pos_start):
     pos = (np_pos[0],np_pos[1])
     object_start = grid[pos_start]
 
+    # is the peice selected a peice
     if get_piece_type_at(grid, pos_start) == NONE:
         return (False, No_Piece_Selcted)
-
+    #is it on the board
     if not check_on_board(pos):
         return (False, Not_On_Board)
-
+    # are you trying to move it to the same place
     if pos == pos_start:
         return (False, Same_Square)
     
     object_pos = grid[pos[0], pos[1]]
-
-
     if get_piece_type_at(grid, pos) != NONE:
         # try to move onto some other piece
         if object_pos.colour == object_start.colour:
@@ -73,19 +72,16 @@ def check_If_Valid(grid, np_pos,np_pos_start):
             return (True, Attacking)
 
     # otherwise, tried to move onto some blank square
-    #if in_Check(grid, pos, pos_start):
-        #return (False, In_Checkp)
-    #else:
     return (True, Blank_Square)
 
 def king_position(grid, colour):
+    # returns position of king on grid for specific colour
     for q in range(0, 11):
         for r in range(0, 11):
             if grid[q,r] not in [0, 1]:
                 if get_piece_type_at(grid, (q, r)) == KING and grid[q,r].colour == colour:
                     return (q,r)
 
-    # TODO this is nonesense?? <fuck you its perfect>
     return (0, 0)
 
 # checks if moving from pos_start to pos_c will put you in check
@@ -138,8 +134,9 @@ def king(grid, pos, c=0): # returns list of all possible king moves
 
     return bandaid(grid,moves,pos,c)
 
-def rook(grid, pos, c=0): # returns list of all possible rook moves
+def rook(grid, pos, c=0): # returns list possible rook moves
         moves = [pos]
+        # moves in the positive y
         while check_If_Valid(grid, moves[-1], pos)[1]  in (Blank_Square,In_Checkp,Same_Square):
             move = np.add(moves[-1], (0,1))
             moves.append(move)
@@ -147,7 +144,7 @@ def rook(grid, pos, c=0): # returns list of all possible rook moves
             moves[-1] = pos
         else:
             moves.append(pos)
-
+        #moves in the negative y
         while check_If_Valid(grid, moves[-1], pos)[1]  in (Blank_Square,In_Checkp,Same_Square):
             move = np.subtract(moves[-1], (0, 1))
             moves.append(move)
@@ -155,28 +152,28 @@ def rook(grid, pos, c=0): # returns list of all possible rook moves
             moves[-1] = pos
         else:
             moves.append(pos)
-
+        #moves in the postiive x
         while check_If_Valid(grid, moves[-1], pos)[1]  in (Blank_Square,In_Checkp,Same_Square):
             moves.append(np.add(moves[-1], (1,0)))
         if check_If_Valid(grid, moves[-1], pos)[1] not in (Attacking, In_Check_Attacking):
             moves[-1] = pos
         else:
             moves.append(pos)
-
+        #moves in the negative x
         while check_If_Valid(grid, moves[-1], pos)[1]  in (Blank_Square,In_Checkp,Same_Square):
             moves.append(np.subtract(moves[-1], (1,0)))
         if check_If_Valid(grid, moves[-1], pos)[1] not in (Attacking, In_Check_Attacking):
             moves[-1] = pos
         else:
             moves.append(pos)
-
+        #moves in the positive z
         while check_If_Valid(grid, moves[-1], pos)[1]  in (Blank_Square,In_Checkp,Same_Square):
             moves.append(np.add(moves[-1], (-1, 1)))
         if check_If_Valid(grid, moves[-1], pos)[1] not in (Attacking, In_Check_Attacking):
             moves[-1] = pos
         else:
             moves.append(pos)
-
+        #moves in the negative y
         while check_If_Valid(grid, moves[-1], pos)[1]  in (Blank_Square,In_Checkp,Same_Square):
             moves.append(np.subtract(moves[-1], (-1, 1)))
         if check_If_Valid(grid, moves[-1], pos)[1] not in (Attacking, In_Check_Attacking):
@@ -244,6 +241,7 @@ def pawn(grid, pos, c=0, r_grid = set_Up_Board(2)):
     moves = []
     posy = (pos[0], pos[1])
 
+    #absolute spaghetti with a ton of redundency TODO prune this code
     if grid[posy].colour == WHITE:
         if check_If_Valid(grid, np.subtract(pos, (1,0)), pos)[0] == True and check_If_Valid(grid, np.subtract(pos, (1,0)), pos)[1] != Attacking:
           moves.append(np.subtract(pos, (1, 0)))
@@ -284,7 +282,7 @@ def queen(grid, pos, c=0): # retunrs list of all possible queen moves
     moves = rook(grid, pos, c) + bishop(grid, pos, c)
     return moves
 
-def possible_moves(grid, pos, c=0, r_grid=set_Up_Board(2)):
+def possible_moves(grid, pos, c=0, r_grid=set_Up_Board(2)): # returns list of all possible moves for a given tile
     if grid[pos].type == ROOK:
         return rook(grid, np.array(pos), c)
     elif grid[pos].type == BISHOP:
@@ -298,7 +296,7 @@ def possible_moves(grid, pos, c=0, r_grid=set_Up_Board(2)):
     elif grid[pos].type == KNIGHT:
         return knight(grid, np.array(pos), c)
 
-def check_Mate(grid, colour): #wip
+def check_Mate(grid, colour): # checks if in check mate for a given colour
     moves = []
     for q in range(0, 11):
         for r in range(0, 11):
@@ -310,7 +308,8 @@ def check_Mate(grid, colour): #wip
     else:
         return False
 
-def promotable_Pawns(grid, colour):
+def promotable_Pawns(grid, colour): # checks if there are pawns to be promoted and then makes them queens if so
+    # im assuming people would want queens so its defaulted to that thoguh it might be a good idea to add a selction screen for it
     if colour == WHITE:
         print('white')
         m = [(5,0),(4,1),(3,2),(2,3),(1,4),(0,5),(0,6),(0,7),(0,8),(0,9),(0,10)]

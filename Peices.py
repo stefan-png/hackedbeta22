@@ -14,6 +14,3 @@ class peices:
         self.type = type
         self.colour = colour
 
-tempDict = {'PAWN': PAWN,'BISHOP':BISHOP,'KNIGHT':KNIGHT,'ROOK': ROOK,'QUEEN':QUEEN,'KING':KING,'BLACK': BLACK,
-'WHITE': WHITE}
-
